@@ -21,8 +21,8 @@ class OnBoardingActivity : BaseActivity() {
     private val imgList = arrayOf(
         R.drawable.reaction,
         R.drawable.post,
+        R.drawable.stories,
         R.drawable.location,
-        R.drawable.stories
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {
