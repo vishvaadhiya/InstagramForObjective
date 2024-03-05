@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "774587193155",
+    "project_id": "instagramforobjective",
+    "storage_bucket": "instagramforobjective.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:774587193155:android:659cb457f5c8734bbe01f6",
+        "android_client_info": {
+          "package_name": "com.example.instagramforobjective"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDEJ4lVO7HEfwsnZQ7r35NhRkORlavTVcM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">InstagramForObjective</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="please_enter_email">please enter email</string>
+    <string name="please_enter_username">please enter username</string>
+    <string name="please_enter_password">please enter password</string>
+    <string name="log_in">Log in</string>
+    <string name="don_t_have_an_account">Don\'t have an account? Sign up</string>
+    <string name="error_adding_user_data">Error adding user data</string>
+    <string name="authentication_success">Authentication success</string>
+    <string name="authentication_failed">Authentication failed</string>
+
+    <string name="login_successful">Login successful</string>
+    <string name="login_invalid_user">Login invalid user</string>
+    <string name="login_credential_is_invalid">Login credential is invalid</string>
+</resources>
