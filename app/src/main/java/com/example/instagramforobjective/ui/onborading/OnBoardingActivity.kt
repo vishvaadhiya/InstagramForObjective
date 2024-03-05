@@ -20,7 +20,9 @@ class OnBoardingActivity : BaseActivity() {
     private var currentPosition = 0
     private val imgList = arrayOf(
         R.drawable.reaction,
-        R.drawable.post
+        R.drawable.post,
+        R.drawable.location,
+        R.drawable.stories
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -81,7 +83,7 @@ class OnBoardingActivity : BaseActivity() {
             )
         }
         if (currentPosition == imgList.size - 1) {
-            binding.nextButton.text = "Finish"
+            binding.nextButton.text = getString(R.string.finish)
             binding.nextButton.icon = null
         }
     }
