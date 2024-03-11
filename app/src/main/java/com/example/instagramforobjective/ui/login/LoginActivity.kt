@@ -9,7 +9,7 @@ import android.text.style.ForegroundColorSpan
 import android.util.Log
 import android.view.View
 import androidx.databinding.ViewDataBinding
-import com.example.instagramforobjective.MainActivity
+import com.example.instagramforobjective.ui.dashboard.MainActivity
 import com.example.instagramforobjective.R
 import com.example.instagramforobjective.common.BaseActivity
 import com.example.instagramforobjective.databinding.ActivityLoginBinding

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+    <item
+        android:id="@+id/home"
+        android:icon="@drawable/ic_baseline_home_24"
+        tools:ignore="MenuTitle" />
+
+    <item
+        android:id="@+id/search"
+        android:icon="@drawable/ic_baseline_search_24"
+        tools:ignore="MenuTitle" />
+
+    <item
+        android:id="@+id/addPost"
+        android:icon="@drawable/ic_baseline_post_add_24"
+        tools:ignore="MenuTitle" />
+
+    <item
+        android:id="@+id/reel"
+        android:icon="@drawable/video_solid"
+        tools:ignore="MenuTitle" />
+
+    <item
+        android:id="@+id/user"
+        android:icon="@drawable/profile"
+        tools:ignore="MenuTitle" />
+</menu>
