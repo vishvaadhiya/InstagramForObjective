@@ -14,6 +14,8 @@ import com.example.instagramforobjective.R
 import com.example.instagramforobjective.common.BaseActivity
 import com.example.instagramforobjective.databinding.ActivityLoginBinding
 import com.example.instagramforobjective.ui.signup.SignUpActivity
+import com.example.instagramforobjective.utility.PreferenceHelper
+import com.example.instagramforobjective.utility.ProgressDialog
 import com.example.instagramforobjective.utility.showToast
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
@@ -25,6 +27,11 @@ class LoginActivity : BaseActivity() {
     private var mAuth: FirebaseAuth? = null
     private lateinit var binding: ActivityLoginBinding
 
+    val pHelper by lazy {
+
+        PreferenceHelper(this)
+    }
+
     override fun initComponents() {
         val spannableString = SpannableString(getString(R.string.don_t_have_an_account))
         val clickableSpan: ClickableSpan = object : ClickableSpan() {
@@ -32,6 +39,7 @@ class LoginActivity : BaseActivity() {
                 startActivity(Intent(applicationContext, SignUpActivity::class.java))
             }
         }
+
 
         spannableString.setSpan(
             clickableSpan,
@@ -55,9 +63,11 @@ class LoginActivity : BaseActivity() {
             val email = binding.usernameEText.text.toString()
             val password = binding.passwordEText.text.toString()
             try {
+                ProgressDialog.showDialog(this)
                 mAuth!!.signInWithEmailAndPassword(email, password)
                     .addOnSuccessListener(this) {
-                        showToast(getString(R.string.login_successful))
+                        ProgressDialog.hideDialog()
+                        pHelper.setLogin(true)
                         val intent = Intent(this, MainActivity::class.java)
                         startActivity(intent)
                         finish()
@@ -83,6 +93,11 @@ class LoginActivity : BaseActivity() {
         }
 
         supportActionBar?.hide()
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        finish()
     }
 
     override fun defineLayout(): Int {

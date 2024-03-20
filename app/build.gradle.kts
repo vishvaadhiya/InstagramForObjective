@@ -46,7 +46,7 @@ dependencies {
 
     implementation("androidx.core:core-ktx:1.9.0")
     implementation("androidx.appcompat:appcompat:1.6.1")
-    implementation("com.google.android.material:material:1.11.0")
+    implementation("com.google.android.material:material:1.5.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
@@ -69,6 +69,6 @@ dependencies {
     kapt("com.github.bumptech.glide:compiler:4.13.2")
     implementation("com.google.android.material:material:1.10.0")
     implementation("com.makeramen:roundedimageview:2.3.0")
-   // implementation(com.github.marlonlom:timeago:4.0.3")
+    implementation( "com.github.marlonlom:timeago:+")
 
 }

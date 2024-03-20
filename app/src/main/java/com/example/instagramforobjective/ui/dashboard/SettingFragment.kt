@@ -15,12 +15,16 @@ import com.example.instagramforobjective.R
 import com.example.instagramforobjective.common.BaseFragment
 import com.example.instagramforobjective.databinding.FragmentSettingBinding
 import com.example.instagramforobjective.ui.login.LoginActivity
+import com.example.instagramforobjective.utility.PreferenceHelper
 import com.google.firebase.auth.FirebaseAuth
 
 
 class SettingFragment : BaseFragment() {
 
     lateinit var binding:FragmentSettingBinding
+    val pHelper by lazy {
+        PreferenceHelper(requireContext())
+    }
 
     override fun defineLayout(): Int {
         return R.layout.fragment_setting
@@ -55,7 +59,9 @@ class SettingFragment : BaseFragment() {
 
         alertDialogBuilder.setPositiveButton(getString(R.string.yes)) { _, _ ->
             FirebaseAuth.getInstance().signOut()
+            pHelper.clearPref()
             val intent = Intent(activity, LoginActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             startActivity(intent)
             activity?.finish()
         }
@@ -67,6 +73,8 @@ class SettingFragment : BaseFragment() {
         val alertDialog = alertDialogBuilder.create()
         alertDialog.show()
     }
+
+
 
     private fun openAboutUs(){
         val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://www.instagram.com"))

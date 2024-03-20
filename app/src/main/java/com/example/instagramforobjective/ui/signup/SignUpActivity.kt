@@ -2,34 +2,44 @@ package com.example.instagramforobjective.ui.signup
 
 import android.content.Intent
 import android.net.Uri
-import androidx.appcompat.app.AppCompatActivity
-import android.os.Bundle
 import android.util.Log
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.databinding.ViewDataBinding
-import com.bumptech.glide.Glide
 import com.example.instagramforobjective.R
 import com.example.instagramforobjective.common.BaseActivity
 import com.example.instagramforobjective.databinding.ActivitySignUpBinding
 import com.example.instagramforobjective.ui.login.LoginActivity
+import com.example.instagramforobjective.ui.model.UserModel
 import com.example.instagramforobjective.utility.Constants
+import com.example.instagramforobjective.utility.ProgressDialog
 import com.example.instagramforobjective.utility.showToast
+import com.example.instagramforobjective.utility.uploadImage
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.storage.FirebaseStorage
 import java.net.URL
 
 class SignUpActivity : BaseActivity() {
 
     private var mAuth: FirebaseAuth? = null
     lateinit var binding: ActivitySignUpBinding
+    private lateinit var user: UserModel
     private var selectedImageUri: Uri? = null
 
     override fun initComponents() {
+        user = UserModel()
         mAuth = FirebaseAuth.getInstance()
         val pickImage = registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
             uri?.let {
-                selectedImageUri = it
-                binding.userProfileView.setImageURI(uri)
+                ProgressDialog.showDialog(this)
+                uploadImage(uri, Constants.USER_PROFILE) {
+                    selectedImageUri = uri
+                    if (it != null) {
+                        ProgressDialog.hideDialog()
+                        user.image = it
+                        binding.userProfileView.setImageURI(uri)
+                    }
+                }
             }
         }
 
@@ -65,24 +75,50 @@ class SignUpActivity : BaseActivity() {
                     val usersCollection = FirebaseFirestore.getInstance().collection(Constants.USER)
                     val userDocument = usersCollection.document(userId)
                     val userData = hashMapOf(
+                        Constants.UID to userId,
                         Constants.EMAIL to email,
                         Constants.NAME to name,
                         Constants.PASSWORD to password,
-                        Constants.Image to imageUri.toString()
-
                     )
+                    imageUri?.let { uri ->
+                        ProgressDialog.showDialog(this)
+                        FirebaseStorage.getInstance().getReference(Constants.USER_PROFILE)
+                            .child(userId)
+                            .putFile(uri)
+                            .addOnSuccessListener { taskSnapshot ->
+                                taskSnapshot.storage.downloadUrl.addOnSuccessListener { imageUrl ->
+                                    userData[Constants.Image] = imageUrl.toString()
 
-                    userDocument.set(userData)
-                        .addOnSuccessListener {
-                            val intent = Intent(this, LoginActivity::class.java)
-                            startActivity(intent)
-                            finish()
-                            Log.d("Auth", task.exception.toString())
-                        }
-                        .addOnFailureListener { e ->
-                            showToast(getString(R.string.error_adding_user_data))
-                            Log.d("AuthFail", task.exception.toString())
-                        }
+                                    userDocument.set(userData)
+                                        .addOnSuccessListener {
+                                           ProgressDialog.hideDialog()
+                                            val intent = Intent(this, LoginActivity::class.java)
+                                            startActivity(intent)
+                                            finish()
+                                        }
+                                        .addOnFailureListener { e ->
+                                            ProgressDialog.hideDialog()
+                                            showToast(getString(R.string.error_adding_user_data))
+                                            Log.d("AuthFail", e.message ?: "Unknown error")
+                                        }
+                                }
+                            }
+                            .addOnFailureListener { e ->
+                                ProgressDialog.hideDialog()
+                                Log.d("ImageUploadFail", e.message ?: "Unknown error")
+                            }
+                    } ?: run {
+                        userDocument.set(userData)
+                            .addOnSuccessListener {
+                                val intent = Intent(this, LoginActivity::class.java)
+                                startActivity(intent)
+                                finish()
+                            }
+                            .addOnFailureListener { e ->
+                                showToast(getString(R.string.error_adding_user_data))
+                                Log.d("AuthFail", e.message ?: "Unknown error")
+                            }
+                    }
                     showToast(getString(R.string.authentication_success))
                 } else {
                     Log.d("AuthenticationError", "Authentication failed", task.exception)

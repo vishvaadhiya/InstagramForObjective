@@ -1,15 +1,12 @@
 package com.example.instagramforobjective.ui.post
 
 import android.app.ProgressDialog
-import android.content.Intent
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.databinding.ViewDataBinding
-import androidx.lifecycle.withStarted
 import com.example.instagramforobjective.R
 import com.example.instagramforobjective.common.BaseActivity
-import com.example.instagramforobjective.databinding.ActivityPostBinding
-import com.example.instagramforobjective.ui.dashboard.MainActivity
-import com.example.instagramforobjective.ui.model.Post
+import com.example.instagramforobjective.databinding.ActivityStoryBinding
+import com.example.instagramforobjective.ui.model.Story
 import com.example.instagramforobjective.utility.Constants
 import com.example.instagramforobjective.utility.goToMainActivity
 import com.example.instagramforobjective.utility.showToast
@@ -18,9 +15,9 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 
-class PostActivity : BaseActivity() {
+class StoryActivity : BaseActivity() {
 
-    lateinit var binding: ActivityPostBinding
+    lateinit var binding: ActivityStoryBinding
     private lateinit var progressDialog: ProgressDialog
     private var imageUrl: String? = null
 
@@ -29,57 +26,53 @@ class PostActivity : BaseActivity() {
         val launcher = registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
             uri?.let {
                 com.example.instagramforobjective.utility.ProgressDialog.showDialog(this)
-                uploadImage(uri, Constants.POST_FOLDER) { url ->
+                uploadImage(uri, Constants.STORY_FOLDER) { url ->
                     if (url != null) {
                         imageUrl = url
                         com.example.instagramforobjective.utility.ProgressDialog.hideDialog()
-                        binding.postImage.setImageURI(uri)
+                        binding.storyIv.setImageURI(uri)
                     }
                 }
             }
         }
-        binding.postImage.setOnClickListener {
+        binding.storyIv.setOnClickListener {
             launcher.launch("image/*")
         }
-        binding.cancelBtn.setOnClickListener {
+        binding.cancelStoryBtn.setOnClickListener {
             goToMainActivity()
         }
-        binding.postBtn.setOnClickListener {
-            postYourData()
+        binding.postStoryBtn.setOnClickListener {
+            postStoryYourData()
         }
     }
 
     override fun defineLayout(): Int {
-        return R.layout.activity_post
+        return R.layout.activity_story
     }
 
     override fun postDataBinding(binding: ViewDataBinding) {
-        this.binding = binding as ActivityPostBinding
+        this.binding = binding as ActivityStoryBinding
     }
 
-    private fun postYourData() {
+    private fun postStoryYourData() {
         if (imageUrl != null) {
-            val post: Post = Post(
-                postUrl = imageUrl!!,
-                caption = binding.captionET.editableText.toString(),
+            val story: Story = Story(
+                storyUrl = imageUrl!!,
                 uid = FirebaseAuth.getInstance().currentUser!!.uid,
-                time = System.currentTimeMillis().toString(),
-                false
+                time = System.currentTimeMillis().toString()
             )
 
-            Firebase.firestore.collection(Constants.POSTS).document().set(post)
+            Firebase.firestore.collection(Constants.STORY).document().set(story)
                 .addOnSuccessListener {
-                    //goToMainActivity()
-                     Firebase.firestore.collection(FirebaseAuth.getInstance().currentUser!!.uid)
-                         .document().set(post).addOnSuccessListener {
-                             startActivity(Intent(this, MainActivity::class.java))
-                             finish()
-                         }
+                    goToMainActivity()
+                /*Firebase.firestore.collection(FirebaseAuth.getInstance().currentUser!!.uid)
+                        .document().set(story).addOnSuccessListener {
+                            startActivity(Intent(this, MainActivity::class.java))
+                            finish()
+                        }*/
                 }
         } else {
             showToast(getString(R.string.please_upload_image_first))
         }
     }
-
-
 }

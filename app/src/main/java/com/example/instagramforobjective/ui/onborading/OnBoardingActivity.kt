@@ -11,12 +11,16 @@ import com.example.instagramforobjective.common.BaseActivity
 import com.example.instagramforobjective.databinding.ActivityOnBoardingBinding
 import com.example.instagramforobjective.ui.login.LoginActivity
 import com.example.instagramforobjective.utility.Constants
+import com.example.instagramforobjective.utility.PreferenceHelper
 
 class OnBoardingActivity : BaseActivity() {
 
     lateinit var binding: ActivityOnBoardingBinding
     private lateinit var sharedPreferences: SharedPreferences
+    val pHelpers by lazy {
 
+        PreferenceHelper(this)
+    }
     private var currentPosition = 0
     private val imgList = arrayOf(
         R.drawable.reaction,
@@ -29,20 +33,9 @@ class OnBoardingActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         sharedPreferences = getSharedPreferences(Constants.PREF, Context.MODE_PRIVATE)
 
-        if (isFirstTimeLaunch(sharedPreferences)) {
-            initComponents()
-        } else {
-            startMainActivity()
-        }
+        initComponents()
     }
 
-    private fun isFirstTimeLaunch(sharedPreferences: SharedPreferences): Boolean {
-        return sharedPreferences.getBoolean(Constants.ISFIRSTTIMELAUNCH, true)
-    }
-
-    private fun setFirstTimeLaunch(sharedPreferences: SharedPreferences) {
-        sharedPreferences.edit().putBoolean(Constants.ISFIRSTTIMELAUNCH, false).apply()
-    }
 
     override fun initComponents() {
         binding.nextButton.setOnClickListener {
@@ -50,7 +43,7 @@ class OnBoardingActivity : BaseActivity() {
             setImages()
 
             if (currentPosition == imgList.size) {
-                setFirstTimeLaunch(sharedPreferences)
+                pHelpers.setFirstTimeLaunch(sharedPreferences)
                 startMainActivity()
             }
         }

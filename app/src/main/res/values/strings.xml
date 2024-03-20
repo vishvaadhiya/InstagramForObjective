@@ -9,7 +9,7 @@
     <string name="error_adding_user_data">Error adding user data</string>
     <string name="authentication_success">Authentication success</string>
     <string name="authentication_failed">Authentication failed</string>
-
+    <string name="no_data_found">No Data Found..</string>
     <string name="login_successful">Login successful</string>
     <string name="login_invalid_user">Login invalid user</string>
     <string name="login_credential_is_invalid">Login credential is invalid</string>
@@ -40,4 +40,12 @@
     <string name="new_post">New post</string>
     <string name="caption">Caption</string>
     <string name="new_reel">New Reel</string>
+    <string name="instagram">Instagram</string>
+    <string name="please_upload_image_first">Please Upload Image First</string>
+    <string name="unfollow">Unfollow</string>
+    <string name="follow">Follow</string>
+    <string name="post">Post</string>
+    <string name="reel">Reel</string>
+    <string name="saved">Saved</string>
+    <string name="successfully_saved">Successfully Saved</string>
 </resources>

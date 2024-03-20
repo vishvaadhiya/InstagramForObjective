@@ -6,30 +6,47 @@
     android:orientation="vertical"
     android:padding="@dimen/_20sdp">
 
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/postIv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/image_regular"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
+
     <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/addPostTv"
+        android:id="@+id/addPostProfileTv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
-        android:layout_margin="@dimen/_15sdp"
+        android:layout_marginStart="@dimen/_10sdp"
         android:text="@string/add_post"
         android:textColor="@color/black"
         android:textSize="16sp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintLeft_toRightOf="@id/postIv"
+        app:layout_constraintTop_toTopOf="parent"/>
 
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/reelIv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/reel"
+        android:layout_marginTop="@dimen/_10sdp"
+        app:layout_constraintTop_toBottomOf="@id/postIv"
+        app:layout_constraintStart_toStartOf="parent"/>
 
     <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/storyTv"
+        android:id="@+id/storyProfileTv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
-        android:layout_margin="@dimen/_15sdp"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:layout_marginStart="@dimen/_10sdp"
         android:text="@string/story"
         android:textColor="@color/black"
         android:textSize="16sp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/addPostTv" />
+        app:layout_constraintTop_toBottomOf="@id/addPostProfileTv"
+        app:layout_constraintLeft_toRightOf="@id/reelIv"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
