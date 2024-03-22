@@ -67,10 +67,4 @@ class UserPostFragment : BaseFragment() {
         }
     }
 
-    /*override fun onResume() {
-        super.onResume()
-        loadPostData()
-    }*/
-
-
 }

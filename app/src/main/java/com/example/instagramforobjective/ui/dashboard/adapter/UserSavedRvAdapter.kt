@@ -23,8 +23,6 @@ class UserSavedRvAdapter(var context: Context, var savedPostList: ArrayList<Save
     override fun itemViewDataBinding(viewDataBinding: ViewDataBinding, position: Int) {
         val savedPostList = savedPostList[position]
         if (viewDataBinding is UserPostListItemBinding) {
-//            viewDataBinding.post=savedPostList
-//            viewDataBinding.executePendingBindings()
             Glide.with(context).load(savedPostList.postUrl)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .placeholder(R.drawable.user)

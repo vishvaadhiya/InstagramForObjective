@@ -1,60 +1,66 @@
 package com.example.instagramforobjective.ui.dashboard
 
-import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.util.Log
+import android.widget.Toast
+import androidx.databinding.ViewDataBinding
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.instagramforobjective.R
+import com.example.instagramforobjective.common.BaseFragment
+import com.example.instagramforobjective.databinding.FragmentReelBinding
+import com.example.instagramforobjective.ui.dashboard.adapter.ReelAdapter
+import com.example.instagramforobjective.ui.model.Reel
+import com.example.instagramforobjective.utility.Constants
+import com.example.instagramforobjective.utility.ProgressDialog
+import com.google.firebase.Firebase
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.firestore
+import com.google.firebase.firestore.toObject
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
+class ReelFragment : BaseFragment() {
 
-/**
- * A simple [Fragment] subclass.
- * Use the [ReelFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
-class ReelFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+    lateinit var binding: FragmentReelBinding
+    private lateinit var adapter: ReelAdapter
+    var reelList = ArrayList<Reel>()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
+    override fun defineLayout(): Int {
+        return R.layout.fragment_reel
+    }
+
+    override fun postDataBinding(binding: ViewDataBinding): ViewDataBinding {
+        this.binding = binding as FragmentReelBinding
+        return this.binding
+    }
+
+    override fun initComponent() {
+        adapter = ReelAdapter(requireContext(), reelList)
+        binding.reelRv.layoutManager = LinearLayoutManager(requireContext())
+        binding.reelRv.adapter = adapter
+
+        val currentUserUid = FirebaseAuth.getInstance().currentUser?.uid
+        if (currentUserUid != null) {
+            Firebase.firestore.collection(Constants.REEL)
+                .whereEqualTo("uid", currentUserUid)
+                .get()
+                .addOnSuccessListener { postSnapshot ->
+                    val tempList = arrayListOf<Reel>()
+                    for (document in postSnapshot.documents) {
+                        val reel = document.toObject<Reel>()
+                        if (reel != null) {
+                            tempList.add(reel)
+                        }
+                    }
+                    Toast.makeText(requireContext(), "${tempList.size}", Toast.LENGTH_SHORT).show()
+                    Log.d("TAG","tempList size ${tempList.size}")
+                    ProgressDialog.hideDialog()
+                    reelList.addAll(tempList)
+                    adapter.notifyDataSetChanged()
+                }
+                .addOnFailureListener { exception ->
+                    Toast.makeText(activity, "$exception", Toast.LENGTH_SHORT).show()
+                }
+        } else {
+            Log.d("TAG", "if not find user data")
         }
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?,
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_reel, container, false)
-    }
-
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment ReelFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            ReelFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
-    }
 }

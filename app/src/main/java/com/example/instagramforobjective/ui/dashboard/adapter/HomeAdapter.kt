@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.util.Log
+import android.widget.ImageView
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.DiffUtil
 import com.bumptech.glide.Glide
@@ -16,13 +17,17 @@ import com.example.instagramforobjective.utility.Constants
 import com.example.instagramforobjective.utility.PreferenceHelper
 import com.example.instagramforobjective.utility.showToast
 import com.github.marlonlom.utilities.timeago.TimeAgo
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.toObject
 import com.google.firebase.ktx.Firebase
 
 
-class HomeAdapter(var context: Context, var postList:ArrayList<Post>, private val preferenceHelper: PreferenceHelper) : BaseAdapter() {
+class HomeAdapter(
+    var context: Context, var postList:ArrayList<Post>, private val preferenceHelper: PreferenceHelper,
+    var currentID: String?
+) : BaseAdapter() {
     override fun getDataAtPosition(position: Int): Any {
         return postList[position]
     }
@@ -63,16 +68,14 @@ class HomeAdapter(var context: Context, var postList:ArrayList<Post>, private va
                 context.startActivity(Intent.createChooser(sharingIntent, "Share via"))
             }
 
-            //like button
-
+            //like Button
+            val post = postList[position]
             viewDataBinding.homeLikeImage.setOnClickListener {
-                postList[position].isLikedImage = !postList[position].isLikedImage
-                if (postList[position].isLikedImage) {
-                    viewDataBinding.homeLikeImage.setImageResource(R.drawable.fill_heart)
-                } else {
-                    viewDataBinding.homeLikeImage.setImageResource(R.drawable.heart)
-                }
+                toggleLikeState(post.postId)
+                setLikeIcon(post.postId, viewDataBinding.homeLikeImage)
             }
+            setLikeIcon(post.postId, viewDataBinding.homeLikeImage)
+
 
             //save button
             viewDataBinding.homeSaveImage.setOnClickListener {
@@ -90,6 +93,7 @@ class HomeAdapter(var context: Context, var postList:ArrayList<Post>, private va
                                 val newDocumentRef = collectionRef.document()
 
                                 val data = hashMapOf(
+                                    "postId" to post.postId,
                                     "postUrl" to post.postUrl,
                                     "caption" to post.caption,
                                     "uid" to post.uid
@@ -121,6 +125,25 @@ class HomeAdapter(var context: Context, var postList:ArrayList<Post>, private va
             }
         }
     }
+
+    private fun toggleLikeState(postId: String) {
+        val isLiked = preferenceHelper.loadLikeState(postId, FirebaseAuth.getInstance().currentUser!!.uid)
+
+        val updatedLikeState = !isLiked
+        preferenceHelper.saveLikeState(postId, FirebaseAuth.getInstance().currentUser!!.uid, updatedLikeState)
+    }
+
+    private fun setLikeIcon(postId: String, imageView: ImageView) {
+        val isLiked = preferenceHelper.loadLikeState(postId, FirebaseAuth.getInstance().currentUser!!.uid)
+
+        if (isLiked) {
+            imageView.setImageResource(R.drawable.fill_heart)
+        } else {
+            imageView.setImageResource(R.drawable.heart)
+        }
+    }
+
+
 
     override fun getItemCount(): Int {
         return postList.size

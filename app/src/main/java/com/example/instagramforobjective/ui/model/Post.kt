@@ -15,8 +15,9 @@ class Post {
         this.caption = caption
     }
 
-    constructor(postUrl: String, caption: String, uid: String, time: String,isLikedImage:Boolean)
+    constructor(postId: String ,postUrl: String, caption: String, uid: String, time: String,isLikedImage:Boolean)
     {
+        this.postId = postId
         this.postUrl = postUrl
         this.caption = caption
         this.uid = uid.toString()

@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.util.Log
 import androidx.core.content.ContextCompat
 import androidx.databinding.ViewDataBinding
 import com.example.instagramforobjective.R
@@ -38,6 +39,7 @@ class OnBoardingActivity : BaseActivity() {
 
 
     override fun initComponents() {
+        Log.d(javaClass.simpleName, "initComponents: OnBoardingActivity ")
         binding.nextButton.setOnClickListener {
             currentPosition++
             setImages()

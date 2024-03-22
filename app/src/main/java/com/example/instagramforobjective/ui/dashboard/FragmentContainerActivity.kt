@@ -1,5 +1,6 @@
 package com.example.instagramforobjective.ui.dashboard
 
+import android.util.Log
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
 import com.example.instagramforobjective.R
@@ -10,6 +11,8 @@ class FragmentContainerActivity : BaseActivity() {
 
     lateinit var binding: ActivityFragmentContainerBinding
     override fun initComponents() {
+        Log.d(javaClass.simpleName, "initComponents: FragmentContainerActivity ")
+
         val loadUpdateProfile = intent.getBooleanExtra("loadUpdateProfile", false)
         if (loadUpdateProfile) {
             setCurrentFragment(UpdateProfileFragment())

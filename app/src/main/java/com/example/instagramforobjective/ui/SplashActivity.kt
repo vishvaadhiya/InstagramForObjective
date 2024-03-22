@@ -33,19 +33,19 @@ class SplashActivity : AppCompatActivity() {
 
     fun gotoLogin() {
 
-        var iLogin = Intent(this, LoginActivity::class.java)
+        val iLogin = Intent(this, LoginActivity::class.java)
         startActivity(iLogin)
     }
 
     fun gotoOnBorading() {
 
-        var onBoarding = Intent(this, OnBoardingActivity::class.java)
+        val onBoarding = Intent(this, OnBoardingActivity::class.java)
         startActivity(onBoarding)
     }
 
 
     fun loginCheck() {
-        var h: Handler = Handler()
+        val h: Handler = Handler()
         h.postDelayed(Runnable {
 
 

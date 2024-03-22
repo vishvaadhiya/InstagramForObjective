@@ -27,6 +27,7 @@ class SignUpActivity : BaseActivity() {
     private var selectedImageUri: Uri? = null
 
     override fun initComponents() {
+        Log.d(javaClass.simpleName, "initComponents: SignUpActivity ")
         user = UserModel()
         mAuth = FirebaseAuth.getInstance()
         val pickImage = registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->

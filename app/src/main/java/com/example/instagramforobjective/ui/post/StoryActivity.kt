@@ -1,6 +1,7 @@
 package com.example.instagramforobjective.ui.post
 
 import android.app.ProgressDialog
+import android.util.Log
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.databinding.ViewDataBinding
 import com.example.instagramforobjective.R
@@ -14,6 +15,7 @@ import com.example.instagramforobjective.utility.uploadImage
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import java.util.UUID
 
 class StoryActivity : BaseActivity() {
 
@@ -22,6 +24,7 @@ class StoryActivity : BaseActivity() {
     private var imageUrl: String? = null
 
     override fun initComponents() {
+        Log.d(javaClass.simpleName, "initComponents: StoryActivity ")
         progressDialog =  ProgressDialog(this)
         val launcher = registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
             uri?.let {
@@ -56,8 +59,10 @@ class StoryActivity : BaseActivity() {
 
     private fun postStoryYourData() {
         if (imageUrl != null) {
+            val storyId =  UUID.randomUUID().toString()
             val story: Story = Story(
                 storyUrl = imageUrl!!,
+                storyId = UUID.randomUUID().toString(),
                 uid = FirebaseAuth.getInstance().currentUser!!.uid,
                 time = System.currentTimeMillis().toString()
             )

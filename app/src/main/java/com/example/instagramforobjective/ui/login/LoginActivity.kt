@@ -33,6 +33,7 @@ class LoginActivity : BaseActivity() {
     }
 
     override fun initComponents() {
+        Log.d(javaClass.simpleName, "initComponents: LoginActivity ")
         val spannableString = SpannableString(getString(R.string.don_t_have_an_account))
         val clickableSpan: ClickableSpan = object : ClickableSpan() {
             override fun onClick(p0: View) {
@@ -75,11 +76,13 @@ class LoginActivity : BaseActivity() {
                     .addOnFailureListener(this) { e ->
                         when (e) {
                             is FirebaseAuthInvalidUserException -> {
+                                ProgressDialog.hideDialog()
                                 showToast(getString(R.string.login_invalid_user))
                             }
 
                             is FirebaseAuthInvalidCredentialsException -> {
                                 showToast(getString(R.string.login_credential_is_invalid))
+                                ProgressDialog.hideDialog()
                             }
 
                             else -> {

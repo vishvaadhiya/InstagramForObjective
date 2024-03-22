@@ -12,9 +12,10 @@ class Story {
         this.storyUrl = storyUrl
     }
 
-    constructor(storyUrl: String, uid: String, time: String)
+    constructor(storyUrl: String,storyId:String, uid: String, time: String)
     {
         this.storyUrl = storyUrl
+        this.storyId = storyId
         this.uid = uid.toString()
         this.time = time
     }

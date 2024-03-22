@@ -65,6 +65,7 @@ dependencies {
     implementation("com.google.dagger:hilt-android:2.44")
     kapt("com.google.dagger:hilt-compiler:2.44")
     // Glide
+    implementation("jp.wasabeef:blurry:4.0.1")
     implementation("com.github.bumptech.glide:glide:4.15.1")
     kapt("com.github.bumptech.glide:compiler:4.13.2")
     implementation("com.google.android.material:material:1.10.0")

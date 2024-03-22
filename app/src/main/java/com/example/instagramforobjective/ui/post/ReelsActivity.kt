@@ -2,6 +2,7 @@ package com.example.instagramforobjective.ui.post
 
 import android.app.ProgressDialog
 import android.content.Intent
+import android.util.Log
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.databinding.ViewDataBinding
 import com.example.instagramforobjective.R
@@ -23,6 +24,7 @@ class ReelsActivity : BaseActivity() {
     private var videoUrl: String? = null
 
     override fun initComponents() {
+        Log.d(javaClass.simpleName, "initComponents: ReelActivity ")
         progressDialog =  ProgressDialog(this)
         val launcher = registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
             uri?.let {

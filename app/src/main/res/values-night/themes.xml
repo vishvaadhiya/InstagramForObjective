@@ -2,6 +2,9 @@
     <!-- Base application theme. -->
     <style name="Base.Theme.InstagramForObjective" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your dark theme here. -->
-        <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
+         <item name="colorPrimary">@color/sky</item>
+        <item name="android:colorBackground">@color/sky</item>
+        <item name="android:windowBackground">@drawable/ic_background</item>
     </style>
+
 </resources>

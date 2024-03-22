@@ -31,12 +31,17 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:scrollbars="horizontal"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintTop_toBottomOf="@id/materialToolBar"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
             tools:listitem="@layout/story_list_layout" />
+
+        <View
+            android:id="@+id/vHandle"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_1sdp"
+            android:background="@color/sky"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/storyRecyclerView" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/homeRv"
@@ -45,7 +50,7 @@
             android:layout_marginTop="@dimen/_5sdp"
             android:orientation="vertical"
             android:nestedScrollingEnabled="true"
-            app:layout_constraintTop_toBottomOf="@id/storyRecyclerView"
+            app:layout_constraintTop_toBottomOf="@id/vHandle"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"

@@ -1,16 +1,17 @@
 <resources>
 
-    <style name="AppTheme" parent="Theme.Material3.DayNight">
+    <style name="AppTheme" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/sky</item>
         <item name="colorPrimaryDark">@color/sky</item>
         <item name="colorAccent">@color/sky</item>
+        <item name="background">@drawable/ic_background</item>
     </style>
 
-    <style name="SplashTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="android:statusBarColor">@color/transparent</item>
-        <item name="android:navigationBarColor">@color/transparent</item>
-        <item name="android:windowBackground">@drawable/ic_background</item>
-    </style>
+<!--    <style name="SplashTheme" parent="Theme.AppCompat.Light.NoActionBar">-->
+<!--        <item name="android:statusBarColor">@color/transparent</item>-->
+<!--        <item name="android:navigationBarColor">@color/transparent</item>-->
+<!--        <item name="android:windowBackground">@drawable/ic_background</item>-->
+<!--    </style>-->
 
 </resources>

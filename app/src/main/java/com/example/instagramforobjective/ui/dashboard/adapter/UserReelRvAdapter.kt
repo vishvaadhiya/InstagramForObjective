@@ -1,12 +1,14 @@
 package com.example.instagramforobjective.ui.dashboard.adapter
 
 import android.content.Context
+import android.content.Intent
 import androidx.databinding.ViewDataBinding
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.example.instagramforobjective.R
 import com.example.instagramforobjective.common.BaseAdapter
 import com.example.instagramforobjective.databinding.UserPostListItemBinding
+import com.example.instagramforobjective.ui.dashboard.PostImageActivity
 import com.example.instagramforobjective.ui.model.Reel
 
 class UserReelRvAdapter(var context: Context, var reelList: ArrayList<Reel>) : BaseAdapter() {
@@ -27,6 +29,13 @@ class UserReelRvAdapter(var context: Context, var reelList: ArrayList<Reel>) : B
                 .placeholder(R.drawable.user)
                 .error(R.drawable.user)
                 .into(viewDataBinding.myPostImage)
+
+            viewDataBinding.myPostImage.setOnClickListener {
+                val intent = Intent(context, PostImageActivity::class.java).apply {
+                    putExtra("videoUrl", reelList[position].reelUrl)
+                }
+                context.startActivity(intent)
+            }
         }
 
     }

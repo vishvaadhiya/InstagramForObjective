@@ -2,6 +2,8 @@ package com.example.instagramforobjective.ui.dashboard
 
 import android.annotation.SuppressLint
 import android.util.Log
+import android.view.View
+import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.lifecycleScope
@@ -33,6 +35,11 @@ class HomeFragment : BaseFragment() {
     private lateinit var adapter: HomeAdapter
     private var postList = ArrayList<Post>()
     private var storyList = ArrayList<Story>()
+    val pHelpers by lazy {
+
+        PreferenceHelper(requireContext())
+    }
+
 
     override fun defineLayout(): Int {
         return R.layout.fragment_home
@@ -46,30 +53,22 @@ class HomeFragment : BaseFragment() {
     @SuppressLint("NotifyDataSetChanged")
     override fun initComponent() {
         val preferenceHelper = PreferenceHelper(requireContext())
-        val tempList = listOf(
-            Story("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSYscfUBUbqwGd_DHVhG-ZjCOD7MUpxp4uhNe7toUg4ug&s", "Description 1"),
-            Story("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSYscfUBUbqwGd_DHVhG-ZjCOD7MUpxp4uhNe7toUg4ug&s", "Description 2"),
-            Story("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSYscfUBUbqwGd_DHVhG-ZjCOD7MUpxp4uhNe7toUg4ug&s", "Description 3"),
-            Story("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSYscfUBUbqwGd_DHVhG-ZjCOD7MUpxp4uhNe7toUg4ug&s", "Description 3"),
-            Story("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSYscfUBUbqwGd_DHVhG-ZjCOD7MUpxp4uhNe7toUg4ug&s", "Description 3"),
-            Story("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSYscfUBUbqwGd_DHVhG-ZjCOD7MUpxp4uhNe7toUg4ug&s", "Description 3")
-        )
-
-        storyList.addAll(tempList)
-        val storyAdapter = StoryAdapter(requireContext(),storyList)
-        binding.storyRecyclerView.layoutManager=LinearLayoutManager(requireContext(),LinearLayoutManager.HORIZONTAL,true)
+        val storyAdapter = view?.let { StoryAdapter(it,requireContext(),storyList) }
+        binding.storyRecyclerView.layoutManager=LinearLayoutManager(requireContext(),LinearLayoutManager.HORIZONTAL,false)
         binding.storyRecyclerView.adapter = storyAdapter
 
 
 
-//        val currentUserID = FirebaseAuth.getInstance().currentUser?.uid
-        adapter = HomeAdapter(requireContext(), postList, preferenceHelper)
+        adapter = HomeAdapter(requireContext(), postList, preferenceHelper,FirebaseAuth.getInstance().currentUser?.uid)
         binding.homeRv.layoutManager = LinearLayoutManager(requireContext())
         binding.homeRv.adapter = adapter
 
+        loadLikeStates()
         val newPostList: List<Post> = arrayListOf()
         adapter.updatePosts(newPostList)
 
+        val storyPostList: List<Story> = arrayListOf()
+        storyAdapter?.updatePosts(storyPostList)
 
         ProgressDialog.showDialog(activity as AppCompatActivity)
         val currentUser = FirebaseAuth.getInstance().currentUser
@@ -84,11 +83,15 @@ class HomeFragment : BaseFragment() {
                             followedUsers.map { it.uid } + FirebaseAuth.getInstance().currentUser!!.uid
                         userUIDs.forEach { userUID ->
                             val posts = getPostsFromUser(userUID)
-
                             postList.addAll(posts)
                             postList.reverse()
-                            ProgressDialog.hideDialog()
                             adapter.notifyDataSetChanged()
+
+                            val story = getStoryFromUser(userUID)
+                            storyList.addAll(story)
+                            storyList.reverse()
+                            storyAdapter?.notifyDataSetChanged()
+                            ProgressDialog.hideDialog()
                         }
                     }
                 }
@@ -96,6 +99,16 @@ class HomeFragment : BaseFragment() {
             Log.d("TAg","demo..")
         }
 
+    }
+
+
+    private fun loadLikeStates() {
+        postList.forEach { post ->
+            val isLiked = pHelpers.loadLikeState(post.postId, FirebaseAuth.getInstance().currentUser!!.uid)
+            post.isLikedImage = isLiked
+        }
+
+        adapter.notifyDataSetChanged()
     }
 
 
@@ -109,6 +122,27 @@ class HomeFragment : BaseFragment() {
                     for (postDocument in postSnapshot.documents) {
                         val post: Post = postDocument.toObject<Post>()!!
                         tempList.add(post)
+                    }
+                    continuation.resume(tempList) {
+                    }
+                }
+                .addOnFailureListener { exception ->
+                    Log.e("HomeFragment", "Error getting posts: $exception")
+                    continuation.resumeWithException(exception)
+                }
+        }
+    }
+
+    @OptIn(ExperimentalCoroutinesApi::class)
+    private suspend fun getStoryFromUser(uid: String): List<Story> {
+        return suspendCancellableCoroutine { continuation ->
+            Firebase.firestore.collection(Constants.STORY).whereEqualTo("uid", uid)
+                .get()
+                .addOnSuccessListener { postSnapshot ->
+                    val tempList = ArrayList<Story>()
+                    for (postDocument in postSnapshot.documents) {
+                        val story: Story = postDocument.toObject<Story>()!!
+                        tempList.add(story)
                     }
                     continuation.resume(tempList) {
                     }

@@ -1,5 +1,6 @@
 package com.example.instagramforobjective.ui.dashboard
 
+import android.util.Log
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
 import com.example.instagramforobjective.R
@@ -15,6 +16,7 @@ class MainActivity : BaseActivity() {
     private lateinit var bottomSheetFragment: AddPostFragment
 
     override fun initComponents() {
+        Log.d(javaClass.simpleName, "initComponents: MainActivity ")
         bottomNav = binding.bottomNavigationView
         setCurrentFragment(HomeFragment())
         bottomNav.setOnItemSelectedListener {
