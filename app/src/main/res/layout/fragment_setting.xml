@@ -5,6 +5,7 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/white"
         tools:context=".ui.dashboard.SettingFragment">
 
         <androidx.appcompat.widget.Toolbar
@@ -28,6 +29,7 @@
         <androidx.cardview.widget.CardView
             android:id="@+id/helpCv"
             android:layout_width="match_parent"
+            android:backgroundTint="@color/white"
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toTopOf="@id/aboutCv">
 
@@ -43,6 +45,7 @@
 
         <androidx.cardview.widget.CardView
             android:id="@+id/aboutCv"
+            android:backgroundTint="@color/white"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toTopOf="@id/logOutCv">
@@ -62,6 +65,8 @@
             android:id="@+id/logOutCv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:backgroundTint="@color/white"
+            android:background="@color/white"
             app:layout_constraintBottom_toBottomOf="parent">
 
             <androidx.appcompat.widget.AppCompatTextView
