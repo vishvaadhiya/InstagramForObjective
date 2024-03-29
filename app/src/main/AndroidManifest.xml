@@ -43,7 +43,7 @@
             android:name=".ui.post.ReelsActivity"
             android:exported="false"
             android:screenOrientation="portrait"
-            android:theme="@style/Base.Theme.InstagramForObjective" />
+            />
         <activity
             android:name=".ui.post.PostActivity"
             android:exported="false"

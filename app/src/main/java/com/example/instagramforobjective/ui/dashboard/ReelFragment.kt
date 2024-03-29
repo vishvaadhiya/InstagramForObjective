@@ -34,12 +34,12 @@ class ReelFragment : BaseFragment() {
     override fun initComponent() {
         adapter = ReelAdapter(requireContext(), reelList)
         binding.reelRv.layoutManager = LinearLayoutManager(requireContext())
+        binding.reelRv.layoutManager = LinearLayoutManager(requireContext(),LinearLayoutManager.VERTICAL,false)
         binding.reelRv.adapter = adapter
 
         val currentUserUid = FirebaseAuth.getInstance().currentUser?.uid
         if (currentUserUid != null) {
             Firebase.firestore.collection(Constants.REEL)
-                .whereEqualTo("uid", currentUserUid)
                 .get()
                 .addOnSuccessListener { postSnapshot ->
                     val tempList = arrayListOf<Reel>()
@@ -50,6 +50,7 @@ class ReelFragment : BaseFragment() {
                         }
                     }
                     Toast.makeText(requireContext(), "${tempList.size}", Toast.LENGTH_SHORT).show()
+                    /*Toast.makeText(requireContext(), tempList[0].reelUrl, Toast.LENGTH_SHORT).show()*/
                     Log.d("TAG","tempList size ${tempList.size}")
                     ProgressDialog.hideDialog()
                     reelList.addAll(tempList)

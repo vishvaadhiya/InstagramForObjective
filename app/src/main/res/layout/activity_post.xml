@@ -6,6 +6,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:backgroundTint="@color/white"
         tools:context=".ui.post.PostActivity">
 
         <com.google.android.material.appbar.MaterialToolbar
@@ -13,7 +14,7 @@
             style="@style/Widget.MaterialComponents.Toolbar.Primary"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="@color/white"
+            android:backgroundTint="@color/white"
             app:layout_constraintTop_toTopOf="parent"
             app:title="@string/new_post"
             app:titleTextColor="@color/black" />

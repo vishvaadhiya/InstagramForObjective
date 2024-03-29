@@ -55,7 +55,6 @@ class HomeAdapter(
 
             Glide.with(context)
                 .load(postList[position].postUrl)
-                // .placeholder(R.drawable.ic_loading)
                 .into(viewDataBinding.myPostImage)
 
             //shared button

@@ -9,12 +9,11 @@
     <string name="error_adding_user_data">Error adding user data</string>
     <string name="authentication_success">Authentication success</string>
     <string name="authentication_failed">Authentication failed</string>
-    <string name="no_data_found">No Data Found..</string>
+    <string name="no_data_found">No Data Found</string>
     <string name="login_successful">Login successful</string>
     <string name="login_invalid_user">Login invalid user</string>
     <string name="login_credential_is_invalid">Login credential is invalid</string>
     <string name="finish">Finish</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="share_profile">Share Profile</string>
     <string name="edit_profile">Edit Profile</string>
