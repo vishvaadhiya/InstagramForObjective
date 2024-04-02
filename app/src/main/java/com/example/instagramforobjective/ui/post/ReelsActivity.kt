@@ -29,7 +29,7 @@ class ReelsActivity : BaseActivity() {
         val launcher = registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
             uri?.let {
                 ProgressDialog.showDialog(this)
-                uploadReels(uri, Constants.REEL_FOLDER) { url ->
+                uploadReels(uri,Constants.REEL_FOLDER) { url ->
                     if (url != null) {
                         videoUrl = url
                         ProgressDialog.hideDialog()
@@ -48,10 +48,15 @@ class ReelsActivity : BaseActivity() {
             goToMainActivity()
         }
         binding.postReelBtn.setOnClickListener {
-            val reel: Reel = Reel(videoUrl!!, binding.captionReelET.editableText.toString(),FirebaseAuth.getInstance().currentUser!!.uid)
-            Firebase.firestore.collection(Constants.REEL).document().set(reel).addOnSuccessListener {
-                startActivity(Intent(this, MainActivity::class.java))
-            }
+            val reel: Reel = Reel(
+                videoUrl!!,
+                binding.captionReelET.editableText.toString(),
+                FirebaseAuth.getInstance().currentUser!!.uid
+            )
+            Firebase.firestore.collection(Constants.REEL).document().set(reel)
+                .addOnSuccessListener {
+                    startActivity(Intent(this, MainActivity::class.java))
+                }
         }
     }
 

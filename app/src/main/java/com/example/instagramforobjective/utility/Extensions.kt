@@ -1,27 +1,12 @@
 package com.example.instagramforobjective.utility
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
-import android.content.res.ColorStateList
-import android.graphics.Color
-import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.util.Log
-import android.widget.ImageView
 import android.widget.Toast
-import androidx.appcompat.widget.AppCompatImageView
-import androidx.databinding.BindingAdapter
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.bumptech.glide.load.resource.bitmap.CenterCrop
-import com.bumptech.glide.load.resource.bitmap.FitCenter
-import com.bumptech.glide.load.resource.bitmap.RoundedCorners
-import com.example.instagramforobjective.R
 import com.example.instagramforobjective.ui.dashboard.MainActivity
-import com.example.instagramforobjective.ui.model.UserModel
 import com.google.firebase.storage.FirebaseStorage
-import java.io.File
 import java.util.UUID
 
 fun Context.showToast(message: String) {
@@ -47,7 +32,6 @@ fun uploadImage(uri: Uri, folderName: String, callback: (String?) -> Unit) {
 
 fun Context.goToMainActivity() {
     Intent(this, MainActivity::class.java).also {
-//        it.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         startActivity(it)
     }
 }
@@ -59,12 +43,14 @@ fun uploadReels(uri: Uri, folderName: String, callback: (String?) -> Unit) {
         .addOnSuccessListener {
             it.storage.downloadUrl.addOnSuccessListener {
                 imageUri = it.toString()
+                Log.d("TAG", "uploadReels: ${imageUri!!.length} ")
                 callback(imageUri)
             }
         }
 
         .addOnProgressListener {
             val uploadVideo: Long = (it.bytesTransferred / it.totalByteCount) * 100
+            Log.d("TAG", "uploadReels: uploadVideo $uploadVideo")
         }
 
 }

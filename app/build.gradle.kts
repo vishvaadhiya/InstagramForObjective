@@ -72,4 +72,11 @@ dependencies {
     implementation("com.makeramen:roundedimageview:2.3.0")
     implementation( "com.github.marlonlom:timeago:+")
 
+    implementation ("com.arthenica:ffmpeg-kit-full:6.0-2")
+
+    implementation ("com.iceteck.silicompressorr:silicompressor:2.2.4")
+    implementation ("com.googlecode.mp4parser:isoparser:1.1.22")
+
+    implementation ("id.zelory:compressor:3.0.1")
+
 }

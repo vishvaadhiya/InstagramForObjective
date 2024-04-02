@@ -21,11 +21,13 @@ class AddPostFragment : BottomSheetDialogFragment() {
         binding = FragmentAddPostBinding.inflate(inflater, container, false)
         binding.postCL.setOnClickListener {
             activity?.startActivity(Intent(requireContext(), PostActivity::class.java))
+            dismiss()
         }
         binding.reelCL.setOnClickListener {
             activity?.startActivity(Intent(requireContext(), ReelsActivity::class.java))
-
+            dismiss()
         }
         return binding.root
     }
+
 }

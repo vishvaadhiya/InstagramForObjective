@@ -1,6 +1,5 @@
 package com.example.instagramforobjective.ui.dashboard
 
-import android.util.Log
 import android.widget.Toast
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -11,6 +10,7 @@ import com.example.instagramforobjective.ui.dashboard.adapter.ReelAdapter
 import com.example.instagramforobjective.ui.model.Reel
 import com.example.instagramforobjective.utility.Constants
 import com.example.instagramforobjective.utility.ProgressDialog
+import com.example.instagramforobjective.utility.showToast
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.firestore
@@ -37,11 +37,14 @@ class ReelFragment : BaseFragment() {
         binding.reelRv.layoutManager = LinearLayoutManager(requireContext(),LinearLayoutManager.VERTICAL,false)
         binding.reelRv.adapter = adapter
 
+
         val currentUserUid = FirebaseAuth.getInstance().currentUser?.uid
         if (currentUserUid != null) {
+
             Firebase.firestore.collection(Constants.REEL)
                 .get()
                 .addOnSuccessListener { postSnapshot ->
+
                     val tempList = arrayListOf<Reel>()
                     for (document in postSnapshot.documents) {
                         val reel = document.toObject<Reel>()
@@ -49,18 +52,19 @@ class ReelFragment : BaseFragment() {
                             tempList.add(reel)
                         }
                     }
-                    Toast.makeText(requireContext(), "${tempList.size}", Toast.LENGTH_SHORT).show()
-                    /*Toast.makeText(requireContext(), tempList[0].reelUrl, Toast.LENGTH_SHORT).show()*/
-                    Log.d("TAG","tempList size ${tempList.size}")
-                    ProgressDialog.hideDialog()
+//                    if (tempList.isEmpty()){
+//                        requireContext().showToast("No any data found please upload reel")
+//                    }else{
+//                    }
                     reelList.addAll(tempList)
+                    ProgressDialog.hideDialog()
                     adapter.notifyDataSetChanged()
                 }
                 .addOnFailureListener { exception ->
                     Toast.makeText(activity, "$exception", Toast.LENGTH_SHORT).show()
                 }
         } else {
-            Log.d("TAG", "if not find user data")
+            requireContext().showToast("No any data found please upload reel")
         }
     }
 

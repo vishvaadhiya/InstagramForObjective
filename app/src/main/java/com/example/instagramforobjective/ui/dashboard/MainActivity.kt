@@ -19,28 +19,35 @@ class MainActivity : BaseActivity() {
         Log.d(javaClass.simpleName, "initComponents: MainActivity ")
         bottomNav = binding.bottomNavigationView
         setCurrentFragment(HomeFragment())
+
+
         bottomNav.setOnItemSelectedListener {
-            when(it.itemId){
-                R.id.home->{
+            when (it.itemId) {
+                R.id.home -> {
                     setCurrentFragment(HomeFragment())
                     true
                 }
-                R.id.search->{
+
+                R.id.search -> {
                     setCurrentFragment(SearchFragment())
                     true
                 }
-                R.id.addPost->{
+
+                R.id.addPost -> {
                     loadDialogFragment()
                     true
                 }
-                R.id.reel->{
+
+                R.id.reel -> {
                     setCurrentFragment(ReelFragment())
                     true
                 }
-                R.id.user->{
+
+                R.id.user -> {
                     setCurrentFragment(ProfileFragment())
                     true
                 }
+
                 else -> {
                     true
                 }
@@ -49,21 +56,23 @@ class MainActivity : BaseActivity() {
     }
 
     override fun defineLayout(): Int {
-       return R.layout.activity_main
+        return R.layout.activity_main
     }
 
     override fun postDataBinding(binding: ViewDataBinding) {
         this.binding = binding as ActivityMainBinding
     }
 
-    private fun setCurrentFragment(fragment: Fragment) =
+    private fun setCurrentFragment(fragment: Fragment) {
+
         supportFragmentManager.beginTransaction().apply {
             replace(R.id.container, fragment)
             commit()
         }
+    }
 
-    private fun loadDialogFragment(){
+    private fun loadDialogFragment() {
         bottomSheetFragment = AddPostFragment()
-        bottomSheetFragment.show(supportFragmentManager,"AddFragment")
+        bottomSheetFragment.show(supportFragmentManager, "AddFragment")
     }
 }
