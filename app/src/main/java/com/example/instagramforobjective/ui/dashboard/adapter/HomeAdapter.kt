@@ -77,7 +77,7 @@ class HomeAdapter(
 
 
             //save button
-            viewDataBinding.homeSaveImage.setOnClickListener {
+            /*viewDataBinding.homeSaveImage.setOnClickListener {
                 val post = postList[position]
 
                 if (!post.isSavedImage) {
@@ -121,7 +121,7 @@ class HomeAdapter(
                 viewDataBinding.homeSaveImage.setImageResource(R.drawable.ic_save)
             } else {
                 viewDataBinding.homeSaveImage.setImageResource(R.drawable.save)
-            }
+            }*/
         }
     }
 
