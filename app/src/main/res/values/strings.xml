@@ -1,9 +1,9 @@
 <resources>
     <string name="app_name">InstagramForObjective</string>
     <string name="sign_up">Sign Up</string>
-    <string name="please_enter_email">please enter email</string>
-    <string name="please_enter_username">please enter username</string>
-    <string name="please_enter_password">please enter password</string>
+    <string name="please_enter_email">Please enter email</string>
+    <string name="please_enter_username">Please enter username</string>
+    <string name="please_enter_password">Please enter password</string>
     <string name="log_in">Log in</string>
     <string name="don_t_have_an_account">Don\'t have an account? Sign up</string>
     <string name="error_adding_user_data">Error adding user data</string>
@@ -31,12 +31,12 @@
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="settings">Settings</string>
-    <string name="update_your_email">update your email</string>
-    <string name="update_your_username">update your username</string>
-    <string name="update_your_password">update your password</string>
-    <string name="update_profile">update profile</string>
+    <string name="update_your_email">Update your email</string>
+    <string name="update_your_username">Update your username</string>
+    <string name="update_your_password">Update your password</string>
+    <string name="update_profile">Update profile</string>
     <string name="add_reel">Add Reel</string>
-    <string name="new_post">New post</string>
+    <string name="new_post">New Post</string>
     <string name="caption">Caption</string>
     <string name="new_reel">New Reel</string>
     <string name="instagram">Instagram</string>
@@ -47,4 +47,7 @@
     <string name="reel">Reel</string>
     <string name="saved">Saved</string>
     <string name="successfully_saved">Successfully Saved</string>
+    <string name="post_btn">Post</string>
+    <string name="cancel_btn">Cancel</string>
+    <string name="add_story">Add Story</string>
 </resources>

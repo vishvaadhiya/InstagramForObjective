@@ -4,6 +4,7 @@ import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.ViewDataBinding
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.instagramforobjective.R
 import com.example.instagramforobjective.common.BaseFragment
@@ -39,7 +40,8 @@ class UserPostFragment : BaseFragment() {
         ProgressDialog.showDialog(requireActivity() as AppCompatActivity)
         val postList = ArrayList<Post>()
         val adapter = UserPostRvAdapter(requireContext(), postList)
-        binding.userPostRV.layoutManager = StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL)
+        binding.userPostRV.layoutManager = GridLayoutManager(requireContext(),3, GridLayoutManager.VERTICAL,false)
+        binding.userPostRV.isNestedScrollingEnabled = false
         binding.userPostRV.adapter = adapter
 
         val currentUserUid = FirebaseAuth.getInstance().currentUser?.uid

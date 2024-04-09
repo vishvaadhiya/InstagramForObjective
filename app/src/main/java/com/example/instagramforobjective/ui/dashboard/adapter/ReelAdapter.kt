@@ -2,11 +2,14 @@ package com.example.instagramforobjective.ui.dashboard.adapter
 
 import android.content.Context
 import android.net.Uri
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.MediaController
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.ViewDataBinding
+import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.example.instagramforobjective.R
@@ -18,7 +21,7 @@ import com.example.instagramforobjective.utility.ProgressDialog
 
 class ReelAdapter(var context: Context, var reelList: ArrayList<Reel>) : BaseAdapter() {
 
-    var mediaControls: MediaController? = null
+var mediaControls: MediaController? = null
 
     override fun getDataAtPosition(position: Int): Any {
         return reelList[position]
@@ -31,22 +34,18 @@ class ReelAdapter(var context: Context, var reelList: ArrayList<Reel>) : BaseAda
     override fun itemViewDataBinding(viewDataBinding: ViewDataBinding, position: Int) {
 
         if (viewDataBinding is ReelListLayoutBinding) {
-            Glide.with(context).load(reelList.get(position).reelUrl)
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .placeholder(R.drawable.user)
-                .into(viewDataBinding.placeholderImageView)
-          /*  if (mediaControls == null) {
+
+            if (mediaControls == null) {
                 mediaControls = MediaController(context)
                 mediaControls!!.setAnchorView(viewDataBinding.videoView)
-            }*/
+            }
             ProgressDialog.showDialog(context as AppCompatActivity)
             val videoUri = Uri.parse(reelList[position].reelUrl)
-//            viewDataBinding.videoView.setMediaController(mediaControls)
+            viewDataBinding.videoView.setMediaController(mediaControls)
             viewDataBinding.videoView.setVideoURI(videoUri)
             viewDataBinding.videoView.setOnPreparedListener { mediaPlayer ->
                 ProgressDialog.hideDialog()
-//                mediaPlayer.start()
-                viewDataBinding.placeholderImageView.visibility = View.GONE
+                mediaPlayer.start()
             }
             viewDataBinding.videoView.setOnErrorListener { mp, what, extra ->
                 ProgressDialog.hideDialog()
@@ -59,4 +58,5 @@ class ReelAdapter(var context: Context, var reelList: ArrayList<Reel>) : BaseAda
     override fun getItemCount(): Int {
         return reelList.size
     }
+
 }

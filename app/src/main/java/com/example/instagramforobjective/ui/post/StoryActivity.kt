@@ -1,9 +1,15 @@
 package com.example.instagramforobjective.ui.post
 
-import android.app.ProgressDialog
+import android.graphics.drawable.Drawable
 import android.util.Log
-import androidx.activity.result.contract.ActivityResultContracts
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.ViewDataBinding
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.DataSource
+import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.request.RequestListener
+import com.bumptech.glide.request.target.Target
 import com.example.instagramforobjective.R
 import com.example.instagramforobjective.common.BaseActivity
 import com.example.instagramforobjective.databinding.ActivityStoryBinding
@@ -11,7 +17,6 @@ import com.example.instagramforobjective.ui.model.Story
 import com.example.instagramforobjective.utility.Constants
 import com.example.instagramforobjective.utility.goToMainActivity
 import com.example.instagramforobjective.utility.showToast
-import com.example.instagramforobjective.utility.uploadImage
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -20,27 +25,42 @@ import java.util.UUID
 class StoryActivity : BaseActivity() {
 
     lateinit var binding: ActivityStoryBinding
-    private lateinit var progressDialog: ProgressDialog
     private var imageUrl: String? = null
 
     override fun initComponents() {
         Log.d(javaClass.simpleName, "initComponents: StoryActivity ")
-        progressDialog =  ProgressDialog(this)
-        val launcher = registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
-            uri?.let {
-                com.example.instagramforobjective.utility.ProgressDialog.showDialog(this)
-                uploadImage(uri, Constants.STORY_FOLDER) { url ->
-                    if (url != null) {
-                        imageUrl = url
+        com.example.instagramforobjective.utility.ProgressDialog.showDialog(this as AppCompatActivity)
+        imageUrl = intent.getStringExtra("imageUri")
+        if (!imageUrl.isNullOrEmpty()) {
+            com.example.instagramforobjective.utility.ProgressDialog.hideDialog()
+            Glide.with(this)
+                .load(imageUrl)
+                .listener(object : RequestListener<Drawable> {
+                    override fun onLoadFailed(
+                        e: GlideException?,
+                        model: Any?,
+                        target: Target<Drawable>?,
+                        isFirstResource: Boolean,
+                    ): Boolean {
                         com.example.instagramforobjective.utility.ProgressDialog.hideDialog()
-                        binding.storyIv.setImageURI(uri)
+                        return false
                     }
-                }
-            }
+
+                    override fun onResourceReady(
+                        resource: Drawable?,
+                        model: Any?,
+                        target: Target<Drawable>?,
+                        dataSource: DataSource?,
+                        isFirstResource: Boolean,
+                    ): Boolean {
+                        com.example.instagramforobjective.utility.ProgressDialog.hideDialog()
+                        return false
+                    }
+                }).into(binding.storyIv)
+        } else {
+            Toast.makeText(this, "Image URL is null or empty", Toast.LENGTH_SHORT).show()
         }
-        binding.storyIv.setOnClickListener {
-            launcher.launch("image/*")
-        }
+
         binding.cancelStoryBtn.setOnClickListener {
             goToMainActivity()
         }
@@ -70,11 +90,6 @@ class StoryActivity : BaseActivity() {
             Firebase.firestore.collection(Constants.STORY).document().set(story)
                 .addOnSuccessListener {
                     goToMainActivity()
-                /*Firebase.firestore.collection(FirebaseAuth.getInstance().currentUser!!.uid)
-                        .document().set(story).addOnSuccessListener {
-                            startActivity(Intent(this, MainActivity::class.java))
-                            finish()
-                        }*/
                 }
         } else {
             showToast(getString(R.string.please_upload_image_first))

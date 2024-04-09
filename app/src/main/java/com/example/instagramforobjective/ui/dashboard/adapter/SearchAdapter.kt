@@ -5,6 +5,7 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.instagramforobjective.R
 import com.example.instagramforobjective.databinding.SearchItemListBinding
 import com.example.instagramforobjective.ui.model.UserModel
@@ -27,6 +28,11 @@ class SearchAdapter(var context: Context, var userList: ArrayList<UserModel>) :
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         var isFollow = false
         holder.binding.searchNameTv.text = userList.get(position).name
+        Glide.with(context)
+            .load(userList[position].image)
+            .placeholder(R.drawable.user)
+            .circleCrop()
+            .into(holder.binding.userProfileIv)
         Firebase.firestore.collection(FirebaseAuth.getInstance().currentUser!!.uid + Constants.FOLLOWERS)
             .whereEqualTo("email", userList.get(position).email).get().addOnSuccessListener {
                 if (it.documents.size == 0) {

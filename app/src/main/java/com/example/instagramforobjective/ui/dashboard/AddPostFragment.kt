@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.instagramforobjective.databinding.FragmentAddPostBinding
-import com.example.instagramforobjective.ui.post.PostActivity
 import com.example.instagramforobjective.ui.post.ReelsActivity
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
@@ -20,11 +19,13 @@ class AddPostFragment : BottomSheetDialogFragment() {
     ): View {
         binding = FragmentAddPostBinding.inflate(inflater, container, false)
         binding.postCL.setOnClickListener {
-            activity?.startActivity(Intent(requireContext(), PostActivity::class.java))
+            activity?.startActivity(Intent(requireContext(), AddPixActivity::class.java))
             dismiss()
         }
         binding.reelCL.setOnClickListener {
-            activity?.startActivity(Intent(requireContext(), ReelsActivity::class.java))
+            val intent = Intent(requireContext(), AddPixActivity::class.java)
+            intent.putExtra("source", "reel")
+            activity?.startActivity(intent)
             dismiss()
         }
         return binding.root

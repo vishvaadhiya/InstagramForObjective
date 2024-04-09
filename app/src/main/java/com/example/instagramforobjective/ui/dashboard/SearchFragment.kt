@@ -3,6 +3,7 @@ package com.example.instagramforobjective.ui.dashboard
 import android.annotation.SuppressLint
 import android.text.Editable
 import android.text.TextWatcher
+import android.text.method.TextKeyListener.clear
 import android.util.Log
 import android.view.View
 import android.widget.Toast
@@ -31,7 +32,6 @@ class SearchFragment : BaseFragment() {
     lateinit var binding: FragmentSearchBinding
     private lateinit var adapter: SearchAdapter
     var userList = ArrayList<UserModel>()
-    var userDataLoaded = false
 
     override fun defineLayout(): Int {
         return R.layout.fragment_search
@@ -46,30 +46,23 @@ class SearchFragment : BaseFragment() {
         binding.postRv.visibility = View.VISIBLE
         binding.searchRv.visibility = View.GONE
         loadPostData()
+        binding.searchView.searchField.onFocusChangeListener =
+            View.OnFocusChangeListener { view, b ->
+                loadUserData()
+                binding.postRv.visibility = View.GONE
+                binding.searchRv.visibility = View.VISIBLE
+
+            }
         binding.searchView.searchField.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
                 Log.d("TAG", "before text changed")
             }
 
             override fun onTextChanged(query: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                if (query.isNullOrEmpty()) {
-                    binding.postRv.visibility = View.VISIBLE
-                    binding.searchRv.visibility = View.GONE
-                    loadPostData()
-                    userDataLoaded = false
-                } else if (query.length >= 2 && !userDataLoaded) {
-                    binding.postRv.visibility = View.GONE
-                    binding.searchRv.visibility = View.VISIBLE
-                    loadUserData()
-                    userDataLoaded = true
-                } else if (query.length >= 2) {
-                    binding.postRv.visibility = View.GONE
-                    binding.searchRv.visibility = View.VISIBLE
-                    performSearch(query.toString())
-                } else {
-                    binding.postRv.visibility = View.VISIBLE
-                    binding.searchRv.visibility = View.GONE
-                }
+                binding.postRv.visibility = View.GONE
+                binding.searchRv.visibility = View.VISIBLE
+                performSearch(query.toString())
+
             }
 
             override fun afterTextChanged(p0: Editable?) {
@@ -143,16 +136,17 @@ class SearchFragment : BaseFragment() {
         val filteredList: ArrayList<UserModel> = ArrayList()
 
         for (user in userList) {
-            if (user.name?.lowercase()!!.contains(query)) {
+            if (user.name?.lowercase()!!.contains(query.lowercase())) {
                 filteredList.add(user)
             }
         }
+        adapter.updateData(filteredList)
 
         if (filteredList.isEmpty()) {
+            filteredList.clear()
             requireActivity().showToast(getString(R.string.no_data_found))
-        } else {
-            adapter.updateData(filteredList)
         }
+
     }
 
 

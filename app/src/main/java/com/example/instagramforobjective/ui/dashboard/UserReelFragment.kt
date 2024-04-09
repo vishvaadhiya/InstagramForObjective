@@ -70,9 +70,6 @@ class UserReelFragment : BaseFragment() {
         }
     }
 
-    /*override fun onResume() {
-        super.onResume()
-        loadReelData()
-    }*/
+
 
 }

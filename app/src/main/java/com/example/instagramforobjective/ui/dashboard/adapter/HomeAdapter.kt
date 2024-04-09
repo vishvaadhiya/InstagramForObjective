@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.DiffUtil
 import com.bumptech.glide.Glide
 import com.example.instagramforobjective.R
 import com.example.instagramforobjective.common.BaseAdapter
+import com.example.instagramforobjective.common.BaseViewHolder
 import com.example.instagramforobjective.databinding.PostListItemBinding
 import com.example.instagramforobjective.ui.model.Post
 import com.example.instagramforobjective.ui.model.UserModel
@@ -22,10 +23,14 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.toObject
 import com.google.firebase.ktx.Firebase
+import java.text.SimpleDateFormat
+import java.util.Date
 
 
 class HomeAdapter(
-    var context: Context, var postList:ArrayList<Post>, private val preferenceHelper: PreferenceHelper,
+    var context: Context,
+    var postList: ArrayList<Post>,
+    private val preferenceHelper: PreferenceHelper,
     var currentID: String?
 ) : BaseAdapter() {
     override fun getDataAtPosition(position: Int): Any {
@@ -38,20 +43,23 @@ class HomeAdapter(
 
     @SuppressLint("SuspiciousIndentation")
     override fun itemViewDataBinding(viewDataBinding: ViewDataBinding, position: Int) {
-        if (viewDataBinding is PostListItemBinding){
+        if (viewDataBinding is PostListItemBinding) {
             Firebase.firestore.collection(Constants.USER).document(postList[position].uid)
                 .get().addOnSuccessListener {
                     val user = it.toObject<UserModel>()
-                        Glide.with(context)
-                            .load(user?.image)
-                            .placeholder(R.drawable.user)
-                            .into(viewDataBinding.profileImage)
+                    Glide.with(context)
+                        .load(user?.image)
+                        .placeholder(R.drawable.user)
+                        .into(viewDataBinding.profileImage)
 
                     viewDataBinding.nameTextView.text = user?.name
                 }
+
+
             viewDataBinding.homePostCaption.text = postList[position].caption
             val timeAgo = TimeAgo.using(postList[position].time.toLong())
             viewDataBinding.timeTextView.text = timeAgo
+
 
             Glide.with(context)
                 .load(postList[position].postUrl)
@@ -61,7 +69,8 @@ class HomeAdapter(
             viewDataBinding.homeShareImage.setOnClickListener {
                 val sharingIntent = Intent(Intent.ACTION_SEND)
                 sharingIntent.type = "text/plain"
-                val shareBody = context.getString(R.string.here_is_the_share_content_body_download_our_app_from_google_play_store_https_play_google_com_store_apps)
+                val shareBody =
+                    context.getString(R.string.here_is_the_share_content_body_download_our_app_from_google_play_store_https_play_google_com_store_apps)
                 sharingIntent.putExtra(Intent.EXTRA_SUBJECT, "Subject Here")
                 sharingIntent.putExtra(Intent.EXTRA_TEXT, shareBody)
                 context.startActivity(Intent.createChooser(sharingIntent, "Share via"))
@@ -74,7 +83,6 @@ class HomeAdapter(
                 setLikeIcon(post.postId, viewDataBinding.homeLikeImage)
             }
             setLikeIcon(post.postId, viewDataBinding.homeLikeImage)
-
 
             //save button
             /*viewDataBinding.homeSaveImage.setOnClickListener {
@@ -126,14 +134,20 @@ class HomeAdapter(
     }
 
     private fun toggleLikeState(postId: String) {
-        val isLiked = preferenceHelper.loadLikeState(postId, FirebaseAuth.getInstance().currentUser!!.uid)
+        val isLiked =
+            preferenceHelper.loadLikeState(postId, FirebaseAuth.getInstance().currentUser!!.uid)
 
         val updatedLikeState = !isLiked
-        preferenceHelper.saveLikeState(postId, FirebaseAuth.getInstance().currentUser!!.uid, updatedLikeState)
+        preferenceHelper.saveLikeState(
+            postId,
+            FirebaseAuth.getInstance().currentUser!!.uid,
+            updatedLikeState
+        )
     }
 
     private fun setLikeIcon(postId: String, imageView: ImageView) {
-        val isLiked = preferenceHelper.loadLikeState(postId, FirebaseAuth.getInstance().currentUser!!.uid)
+        val isLiked =
+            preferenceHelper.loadLikeState(postId, FirebaseAuth.getInstance().currentUser!!.uid)
 
         if (isLiked) {
             imageView.setImageResource(R.drawable.fill_heart)
@@ -143,16 +157,15 @@ class HomeAdapter(
     }
 
 
-
     override fun getItemCount(): Int {
         return postList.size
     }
 
     fun updatePosts(newPosts: List<Post>) {
         val diffResult = DiffUtil.calculateDiff(PostDiffCallback(postList, newPosts))
+        val temp = newPosts.sortedByDescending { it.time.toLong() }
         postList.clear()
-        postList.addAll(newPosts)
-        postList.sortBy { it.time }
+        postList.addAll(temp)
         diffResult.dispatchUpdatesTo(this)
     }
 

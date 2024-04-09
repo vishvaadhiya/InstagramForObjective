@@ -18,7 +18,6 @@ import com.example.instagramforobjective.databinding.FragmentProfileBinding
 import com.example.instagramforobjective.ui.dashboard.adapter.ViewPagerAdapter
 import com.example.instagramforobjective.ui.model.UserModel
 import com.example.instagramforobjective.ui.post.PostActivity
-import com.example.instagramforobjective.ui.post.StoryActivity
 import com.example.instagramforobjective.utility.Constants
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.firebase.auth.FirebaseAuth
@@ -125,7 +124,9 @@ class ProfileFragment : BaseFragment() {
                 }
 
                 R.id.storyProfileTv -> {
-                    startActivity(Intent(requireActivity(), StoryActivity::class.java))
+                    val intent = Intent(requireContext(), AddPixActivity::class.java)
+                    intent.putExtra("source", "story")
+                    activity?.startActivity(intent)
                 }
             }
         }

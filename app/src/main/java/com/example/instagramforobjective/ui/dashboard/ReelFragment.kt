@@ -33,9 +33,8 @@ class ReelFragment : BaseFragment() {
 
     override fun initComponent() {
         adapter = ReelAdapter(requireContext(), reelList)
-        binding.reelRv.layoutManager = LinearLayoutManager(requireContext())
-        binding.reelRv.layoutManager = LinearLayoutManager(requireContext(),LinearLayoutManager.VERTICAL,false)
-        binding.reelRv.adapter = adapter
+//        binding.viewPager.layoutManager = LinearLayoutManager(requireContext(),LinearLayoutManager.VERTICAL,false)
+        binding.viewPager.adapter = adapter
 
 
         val currentUserUid = FirebaseAuth.getInstance().currentUser?.uid
@@ -52,10 +51,7 @@ class ReelFragment : BaseFragment() {
                             tempList.add(reel)
                         }
                     }
-//                    if (tempList.isEmpty()){
-//                        requireContext().showToast("No any data found please upload reel")
-//                    }else{
-//                    }
+                    requireContext().showToast("${tempList.size}")
                     reelList.addAll(tempList)
                     ProgressDialog.hideDialog()
                     adapter.notifyDataSetChanged()
@@ -66,6 +62,7 @@ class ReelFragment : BaseFragment() {
         } else {
             requireContext().showToast("No any data found please upload reel")
         }
+
     }
 
 }

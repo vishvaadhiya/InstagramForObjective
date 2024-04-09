@@ -2,8 +2,6 @@ package com.example.instagramforobjective.ui.dashboard
 
 import android.annotation.SuppressLint
 import android.util.Log
-import android.view.View
-import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.lifecycleScope
@@ -35,7 +33,7 @@ class HomeFragment : BaseFragment() {
     private lateinit var adapter: HomeAdapter
     private var postList = ArrayList<Post>()
     private var storyList = ArrayList<Story>()
-    val pHelpers by lazy {
+    private val pHelpers by lazy {
 
         PreferenceHelper(requireContext())
     }
@@ -58,17 +56,11 @@ class HomeFragment : BaseFragment() {
         binding.storyRecyclerView.adapter = storyAdapter
 
 
-
         adapter = HomeAdapter(requireContext(), postList, preferenceHelper,FirebaseAuth.getInstance().currentUser?.uid)
-        binding.homeRv.layoutManager = LinearLayoutManager(requireContext())
+        binding.homeRv.layoutManager = LinearLayoutManager(requireContext(),LinearLayoutManager.VERTICAL, false)
         binding.homeRv.adapter = adapter
 
         loadLikeStates()
-        val newPostList: List<Post> = arrayListOf()
-        adapter.updatePosts(newPostList)
-
-        val storyPostList: List<Story> = arrayListOf()
-        storyAdapter?.updatePosts(storyPostList)
 
         ProgressDialog.showDialog(activity as AppCompatActivity)
         val currentUser = FirebaseAuth.getInstance().currentUser
@@ -84,12 +76,12 @@ class HomeFragment : BaseFragment() {
                         userUIDs.forEach { userUID ->
                             val posts = getPostsFromUser(userUID)
                             postList.addAll(posts)
-                            postList.reverse()
+                            adapter.updatePosts(postList)
                             adapter.notifyDataSetChanged()
 
                             val story = getStoryFromUser(userUID)
                             storyList.addAll(story)
-                            storyList.reverse()
+                            storyAdapter?.updatePosts(storyList)
                             storyAdapter?.notifyDataSetChanged()
                             ProgressDialog.hideDialog()
                         }
@@ -102,6 +94,7 @@ class HomeFragment : BaseFragment() {
     }
 
 
+    @SuppressLint("NotifyDataSetChanged")
     private fun loadLikeStates() {
         postList.forEach { post ->
             val isLiked = pHelpers.loadLikeState(post.postId, FirebaseAuth.getInstance().currentUser!!.uid)
@@ -136,13 +129,29 @@ class HomeFragment : BaseFragment() {
     @OptIn(ExperimentalCoroutinesApi::class)
     private suspend fun getStoryFromUser(uid: String): List<Story> {
         return suspendCancellableCoroutine { continuation ->
-            Firebase.firestore.collection(Constants.STORY).whereEqualTo("uid", uid)
+
+            val currentTime:Long = System.currentTimeMillis()
+
+            Firebase.firestore.collection(Constants.STORY)
+                .whereEqualTo("uid", uid)
                 .get()
                 .addOnSuccessListener { postSnapshot ->
                     val tempList = ArrayList<Story>()
                     for (postDocument in postSnapshot.documents) {
-                        val story: Story = postDocument.toObject<Story>()!!
-                        tempList.add(story)
+                        val storyData = postDocument.data
+                        val timeString = storyData?.get("time") as? String
+
+                        if (!timeString.isNullOrEmpty()) {
+                            val storyTime = timeString.toLongOrNull()
+
+                            if (storyTime != null) {
+                                val timeDifference = currentTime - storyTime
+                                if (timeDifference <= (24 * 60 * 60 * 1000)) {
+                                    val story: Story = postDocument.toObject<Story>()!!
+                                    tempList.add(story)
+                                }
+                            }
+                        }
                     }
                     continuation.resume(tempList) {
                     }

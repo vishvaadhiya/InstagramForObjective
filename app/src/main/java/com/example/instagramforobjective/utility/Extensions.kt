@@ -13,7 +13,7 @@ fun Context.showToast(message: String) {
     Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
 }
 
-fun uploadImage(uri: Uri, folderName: String, callback: (String?) -> Unit) {
+/*fun uploadImage(uri: Uri, folderName: String, callback: (String?) -> Unit) {
 
     FirebaseStorage.getInstance().getReference(folderName).child(UUID.randomUUID().toString())
         .putFile(uri)
@@ -27,7 +27,31 @@ fun uploadImage(uri: Uri, folderName: String, callback: (String?) -> Unit) {
             }
         }
 
+}*/
+fun uploadImage(uri: Uri?, folderName: String, callback: (String?) -> Unit) {
+    uri?.let { imageUri ->
+        FirebaseStorage.getInstance().getReference(folderName).child(UUID.randomUUID().toString())
+            .putFile(imageUri)
+            .addOnSuccessListener { uploadTask ->
+                uploadTask.storage.downloadUrl.addOnSuccessListener { downloadUri ->
+                    val imageUrl = downloadUri.toString()
+                    callback(imageUrl)
+                }.addOnFailureListener { exception ->
+                    callback(null)
+                    Log.e("TAG", "Failed to get download URL: ${exception.message}")
+                }
+            }
+            .addOnFailureListener { exception ->
+                // Handle any errors during the upload process
+                callback(null)
+                Log.e("TAG", "Failed to upload image: ${exception.message}")
+            }
+    } ?: run {
+        callback(null)
+        Log.e("TAG", "URI is null.")
+    }
 }
+
 
 
 fun Context.goToMainActivity() {

@@ -3,122 +3,126 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/sky"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/customTV"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="test"
-                android:textColor="@color/white"
-                android:textSize="@dimen/_18ssp"
-                android:textStyle="bold" />
-
-
-        </androidx.appcompat.widget.Toolbar>
-
-
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/profilePic"
-            android:layout_width="@dimen/_96sdp"
-            android:layout_height="@dimen/_96sdp"
-            android:layout_marginTop="@dimen/_10sdp"
-            android:src="@drawable/user"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/toolbar" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/usernameTV"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Vishva"
-            android:textSize="@dimen/_15sdp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/profilePic" />
-
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/centerGuideline"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.5" />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/editProfile"
-            android:layout_width="@dimen/_130sdp"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/_5sdp"
-            android:backgroundTint="@color/sky"
-            android:text="@string/edit_profile"
-            android:textColor="@color/black"
-            app:layout_constraintEnd_toStartOf="@id/centerGuideline"
-            app:layout_constraintTop_toBottomOf="@id/usernameTV" />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/shareProfile"
-            android:layout_width="@dimen/_130sdp"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/_5sdp"
-            android:backgroundTint="@color/sky"
-            android:text="@string/share_profile"
-            android:textColor="@color/black"
-            app:layout_constraintStart_toEndOf="@id/centerGuideline"
-            app:layout_constraintTop_toBottomOf="@id/usernameTV" />
-
-        <View
-            android:id="@+id/vHandle"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/_2sdp"
-            android:layout_marginTop="@dimen/_5sdp"
-            android:background="@color/sky"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/shareProfile" />
+        android:layout_height="match_parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/_480sdp"
-            app:layout_constraintTop_toBottomOf="@id/vHandle">
+            android:layout_height="wrap_content">
 
-            <com.google.android.material.tabs.TabLayout
-                android:id="@+id/tabLayout"
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/_5sdp"
-                android:layout_marginTop="@dimen/_10sdp"
-                android:background="@color/white"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:tabIndicatorColor="@android:color/black"
-                app:tabTextColor="@android:color/black" />
+                android:background="@color/sky"
+                app:layout_constraintTop_toTopOf="parent">
 
-            <androidx.viewpager.widget.ViewPager
-                android:id="@+id/viewPager"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_marginStart="@dimen/_5sdp"
-                android:layout_marginTop="@dimen/_25sdp"
-                android:layout_marginEnd="@dimen/_5sdp"
-                app:layout_constraintBottom_toBottomOf="parent"
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/customTV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="test"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/_18ssp"
+                    android:textStyle="bold" />
+
+
+            </androidx.appcompat.widget.Toolbar>
+
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/profilePic"
+                android:layout_width="@dimen/_96sdp"
+                android:layout_height="@dimen/_96sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:src="@drawable/user"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tabLayout" />
+                app:layout_constraintTop_toBottomOf="@id/toolbar" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/usernameTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Vishva"
+                android:textSize="@dimen/_15sdp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/profilePic" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/centerGuideline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.5" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/editProfile"
+                android:layout_width="@dimen/_130sdp"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/_5sdp"
+                android:backgroundTint="@color/sky"
+                android:text="@string/edit_profile"
+                android:textColor="@color/black"
+                app:layout_constraintEnd_toStartOf="@id/centerGuideline"
+                app:layout_constraintTop_toBottomOf="@id/usernameTV" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/shareProfile"
+                android:layout_width="@dimen/_130sdp"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/_5sdp"
+                android:backgroundTint="@color/sky"
+                android:text="@string/share_profile"
+                android:textColor="@color/black"
+                app:layout_constraintStart_toEndOf="@id/centerGuideline"
+                app:layout_constraintTop_toBottomOf="@id/usernameTV" />
+
+            <View
+                android:id="@+id/vHandle"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_2sdp"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:background="@color/sky"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/shareProfile" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_480sdp"
+                app:layout_constraintTop_toBottomOf="@id/vHandle">
+
+                <com.google.android.material.tabs.TabLayout
+                    android:id="@+id/tabLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_5sdp"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:background="@color/white"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:tabIndicatorColor="@android:color/black"
+                    app:tabTextColor="@android:color/black" />
+
+                <androidx.viewpager.widget.ViewPager
+                    android:id="@+id/viewPager"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_marginStart="@dimen/_5sdp"
+                    android:layout_marginEnd="@dimen/_5sdp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tabLayout" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
+    </ScrollView>
 </layout>

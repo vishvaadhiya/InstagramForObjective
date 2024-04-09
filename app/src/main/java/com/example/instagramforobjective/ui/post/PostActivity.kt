@@ -1,8 +1,16 @@
 package com.example.instagramforobjective.ui.post
 
 
-import androidx.activity.result.contract.ActivityResultContracts
+import android.graphics.drawable.Drawable
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.ViewDataBinding
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.DataSource
+import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.request.RequestListener
+import com.bumptech.glide.request.RequestOptions
+import com.bumptech.glide.request.target.Target
 import com.example.instagramforobjective.R
 import com.example.instagramforobjective.common.BaseActivity
 import com.example.instagramforobjective.databinding.ActivityPostBinding
@@ -11,7 +19,6 @@ import com.example.instagramforobjective.utility.Constants
 import com.example.instagramforobjective.utility.ProgressDialog
 import com.example.instagramforobjective.utility.goToMainActivity
 import com.example.instagramforobjective.utility.showToast
-import com.example.instagramforobjective.utility.uploadImage
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -23,21 +30,38 @@ class PostActivity : BaseActivity() {
     private var imageUrl: String? = null
 
     override fun initComponents() {
-        val launcher = registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
-            uri?.let {
-                ProgressDialog.showDialog(this)
-                uploadImage(uri, Constants.POST_FOLDER) { url ->
-                    if (url != null) {
-                        imageUrl = url
+        ProgressDialog.showDialog(this as AppCompatActivity)
+        imageUrl = intent.getStringExtra("imageUri")
+        if (!imageUrl.isNullOrEmpty()) {
+            ProgressDialog.hideDialog()
+            Glide.with(this)
+                .load(imageUrl)
+                .listener(object : RequestListener<Drawable> {
+                    override fun onLoadFailed(
+                        e: GlideException?,
+                        model: Any?,
+                        target: Target<Drawable>?,
+                        isFirstResource: Boolean,
+                    ): Boolean {
                         ProgressDialog.hideDialog()
-                        binding.postImage.setImageURI(uri)
+                        return false
                     }
-                }
-            }
+
+                    override fun onResourceReady(
+                        resource: Drawable?,
+                        model: Any?,
+                        target: Target<Drawable>?,
+                        dataSource: DataSource?,
+                        isFirstResource: Boolean,
+                    ): Boolean {
+                        ProgressDialog.hideDialog()
+                        return false
+                    }
+                }).into(binding.postImage)
+        } else {
+            Toast.makeText(this, "Image URL is null or empty", Toast.LENGTH_SHORT).show()
         }
-        binding.postImage.setOnClickListener {
-            launcher.launch("image/*")
-        }
+
         binding.cancelBtn.setOnClickListener {
             goToMainActivity()
         }

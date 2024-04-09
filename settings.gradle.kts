@@ -15,4 +15,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "InstagramForObjective"
 include(":app")
- 
+include(":pix")

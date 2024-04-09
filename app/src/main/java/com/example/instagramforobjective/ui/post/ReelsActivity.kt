@@ -1,11 +1,17 @@
 package com.example.instagramforobjective.ui.post
 
 import android.content.Intent
+import android.graphics.drawable.Drawable
 import android.util.Log
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.ViewDataBinding
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.DataSource
+import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.RequestOptions
+import com.bumptech.glide.request.target.Target
 import com.example.instagramforobjective.R
 import com.example.instagramforobjective.common.BaseActivity
 import com.example.instagramforobjective.databinding.ActivityReelsBinding
@@ -25,25 +31,36 @@ class ReelsActivity : BaseActivity() {
     private var videoUrl: String? = null
 
     override fun initComponents() {
-        Log.d(javaClass.simpleName, "initComponents: ReelActivity ")
-        val launcher = registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
-            uri?.let {
-                ProgressDialog.showDialog(this)
-                uploadReels(uri,Constants.REEL_FOLDER) { url ->
-                    if (url != null) {
-                        videoUrl = url
-                        ProgressDialog.hideDialog()
-                        Glide.with(this)
-                            .load(uri)
-                            .apply(RequestOptions.frameOf(0))
-                            .into(binding.postVideo)
-                    }
+        ProgressDialog.showDialog(this as AppCompatActivity)
+        videoUrl = intent.getStringExtra("videoUri")
+        Glide.with(this)
+            .load(videoUrl)
+            .apply(RequestOptions.frameOf(0))
+            .listener(object:RequestListener<Drawable>{
+                override fun onLoadFailed(
+                    e: GlideException?,
+                    model: Any?,
+                    target: Target<Drawable>?,
+                    isFirstResource: Boolean,
+                ): Boolean {
+                    ProgressDialog.hideDialog()
+                    return false
                 }
-            }
-        }
-        binding.postVideo.setOnClickListener {
-            launcher.launch("video/*")
-        }
+
+                override fun onResourceReady(
+                    resource: Drawable?,
+                    model: Any?,
+                    target: Target<Drawable>?,
+                    dataSource: DataSource?,
+                    isFirstResource: Boolean,
+                ): Boolean {
+                    ProgressDialog.hideDialog()
+                    return false
+                }
+            })
+            .into(binding.postVideo)
+
+
         binding.cancelReelBtn.setOnClickListener {
             goToMainActivity()
         }
@@ -51,7 +68,8 @@ class ReelsActivity : BaseActivity() {
             val reel: Reel = Reel(
                 videoUrl!!,
                 binding.captionReelET.editableText.toString(),
-                FirebaseAuth.getInstance().currentUser!!.uid
+                FirebaseAuth.getInstance().currentUser!!.uid,
+                ""
             )
             Firebase.firestore.collection(Constants.REEL).document().set(reel)
                 .addOnSuccessListener {
