@@ -50,4 +50,9 @@
     <string name="post_btn">Post</string>
     <string name="cancel_btn">Cancel</string>
     <string name="add_story">Add Story</string>
+    <string name="failed_to_upload_video">Failed to upload video</string>
+    <string name="no_images_selected">No images selected</string>
+    <string name="failed_to_upload_image">Failed to upload image</string>
+    <string name="edit_picture">Edit Picture</string>
+    <string name="add_picture">Add Picture</string>
 </resources>

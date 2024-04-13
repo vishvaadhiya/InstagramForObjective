@@ -31,9 +31,8 @@ class PostActivity : BaseActivity() {
 
     override fun initComponents() {
         ProgressDialog.showDialog(this as AppCompatActivity)
-        imageUrl = intent.getStringExtra("imageUri")
+        imageUrl = intent.getStringExtra(Constants.IMAGE_URI)
         if (!imageUrl.isNullOrEmpty()) {
-            ProgressDialog.hideDialog()
             Glide.with(this)
                 .load(imageUrl)
                 .listener(object : RequestListener<Drawable> {
@@ -67,6 +66,10 @@ class PostActivity : BaseActivity() {
         }
         binding.postBtn.setOnClickListener {
             postYourData()
+        }
+
+        binding.backPress.setOnClickListener {
+            goToMainActivity()
         }
     }
 

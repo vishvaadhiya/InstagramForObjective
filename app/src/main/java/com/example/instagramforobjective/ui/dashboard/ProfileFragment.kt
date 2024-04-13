@@ -2,13 +2,17 @@ package com.example.instagramforobjective.ui.dashboard
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.result.PickVisualMediaRequest
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.ViewDataBinding
 import com.bumptech.glide.Glide
@@ -18,6 +22,7 @@ import com.example.instagramforobjective.databinding.FragmentProfileBinding
 import com.example.instagramforobjective.ui.dashboard.adapter.ViewPagerAdapter
 import com.example.instagramforobjective.ui.model.UserModel
 import com.example.instagramforobjective.ui.post.PostActivity
+import com.example.instagramforobjective.ui.post.StoryActivity
 import com.example.instagramforobjective.utility.Constants
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.firebase.auth.FirebaseAuth
@@ -29,7 +34,16 @@ class ProfileFragment : BaseFragment() {
 
     lateinit var binding: FragmentProfileBinding
     private lateinit var viewPagerAdapter: ViewPagerAdapter
-
+    val pickMedia =
+        registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
+            if (uri != null) {
+                val intent = Intent(requireContext(), StoryActivity::class.java)
+                intent.putExtra(Constants.IMAGE_URI, uri.toString())
+                activity?.startActivity(intent)
+            } else {
+                Log.d("PhotoPicker", "No media selected")
+            }
+        }
 
     override fun initComponent() {
         (requireActivity() as AppCompatActivity).setSupportActionBar(binding.toolbar)
@@ -124,9 +138,13 @@ class ProfileFragment : BaseFragment() {
                 }
 
                 R.id.storyProfileTv -> {
-                    val intent = Intent(requireContext(), AddPixActivity::class.java)
-                    intent.putExtra("source", "story")
-                    activity?.startActivity(intent)
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                        pickMedia.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
+                    } else {
+                        val intent = Intent(requireContext(), AddPixActivity::class.java)
+                        intent.putExtra(Constants.SOURCE, Constants.STORY)
+                        activity?.startActivity(intent)
+                    }
                 }
             }
         }

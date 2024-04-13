@@ -33,6 +33,17 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/logoImageView" />
 
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/AddProfileTv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/add_picture"
+                android:textColor="@color/sky"
+                android:textStyle="bold"
+                app:layout_constraintTop_toBottomOf="@id/userProfileView"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"/>
+
             <androidx.appcompat.widget.AppCompatEditText
                 android:id="@+id/emailEditText"
                 android:layout_width="0dp"

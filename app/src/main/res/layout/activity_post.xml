@@ -9,13 +9,22 @@
         android:backgroundTint="@color/white"
         tools:context=".ui.post.PostActivity">
 
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/backPress"
+            android:layout_width="@dimen/_35sdp"
+            android:layout_height="@dimen/_45sdp"
+            android:src="@drawable/ic_back_arrow_icon"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/materialToolBar"
             style="@style/Widget.MaterialComponents.Toolbar.Primary"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="?attr/actionBarSize"
             android:backgroundTint="@color/white"
             app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toEndOf="@id/backPress"
             app:title="@string/new_post"
             app:titleTextColor="@color/black" />
 

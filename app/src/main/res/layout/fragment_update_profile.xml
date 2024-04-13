@@ -13,6 +13,7 @@
             android:layout_gravity="center"
             tools:context=".ui.login.MainActivity">
 
+
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/userProfileView"
                 android:layout_width="@dimen/_96sdp"
@@ -22,6 +23,17 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/editProfileTv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/edit_picture"
+                android:textColor="@color/sky"
+                android:textStyle="bold"
+                app:layout_constraintTop_toBottomOf="@id/userProfileView"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"/>
 
             <androidx.appcompat.widget.AppCompatEditText
                 android:id="@+id/updateEmailEditText"
@@ -36,7 +48,7 @@
                 android:textSize="@dimen/_14ssp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/userProfileView" />
+                app:layout_constraintTop_toBottomOf="@+id/editProfileTv" />
 
             <androidx.appcompat.widget.AppCompatEditText
                 android:id="@+id/updateUsernameEditText"

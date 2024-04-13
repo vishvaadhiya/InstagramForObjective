@@ -22,7 +22,7 @@ import com.google.firebase.ktx.Firebase
 class UpdateProfileFragment : BaseFragment() {
 
     lateinit var binding: FragmentUpdateProfileBinding
-    lateinit var user : UserModel
+    lateinit var user: UserModel
     private lateinit var progressDialog: ProgressDialog
 
     override fun defineLayout(): Int {
@@ -36,7 +36,7 @@ class UpdateProfileFragment : BaseFragment() {
 
     override fun initComponent() {
         user = UserModel()
-        progressDialog =  ProgressDialog(activity)
+        progressDialog = ProgressDialog(activity)
         Firebase.firestore.collection(Constants.USER)
             .document(FirebaseAuth.getInstance().currentUser!!.uid).get()
             .addOnSuccessListener {
@@ -67,6 +67,9 @@ class UpdateProfileFragment : BaseFragment() {
         binding.userProfileView.setOnClickListener {
             launcher.launch("image/*")
         }
+        binding.editProfileTv.setOnClickListener {
+            launcher.launch("image/*")
+        }
         binding.updateProfileBtn.setOnClickListener {
             val newEmail = binding.updateEmailEditText.text.toString()
             val newName = binding.updateUsernameEditText.text.toString()
@@ -85,7 +88,7 @@ class UpdateProfileFragment : BaseFragment() {
                     activity?.showToast("Successfully Updated")
                     startActivity(Intent(activity, MainActivity::class.java))
                 }
-       }
+        }
     }
 
 

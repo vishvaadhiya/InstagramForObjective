@@ -1,16 +1,23 @@
 package com.example.instagramforobjective.ui.dashboard
 
-import android.Manifest
+import android.annotation.SuppressLint
+import android.app.Dialog
+import android.app.ProgressDialog
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
-import android.os.Build
+import android.os.AsyncTask
 import android.os.Bundle
+import android.os.Environment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
+import androidx.core.content.ContextCompat.startActivity
+import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import com.example.instagramforobjective.R
 import com.example.instagramforobjective.ui.dashboard.custom.fragmentBody
@@ -18,14 +25,16 @@ import com.example.instagramforobjective.ui.post.PostActivity
 import com.example.instagramforobjective.ui.post.ReelsActivity
 import com.example.instagramforobjective.ui.post.StoryActivity
 import com.example.instagramforobjective.utility.Constants
-import com.example.instagramforobjective.utility.ProgressDialog
 import com.example.instagramforobjective.utility.showToast
 import com.example.instagramforobjective.utility.uploadImage
 import com.example.instagramforobjective.utility.uploadReels
+import com.iceteck.silicompressorr.SiliCompressor
 import io.ak1.pix.helpers.PixEventCallback
 import io.ak1.pix.helpers.addPixToActivity
 import io.ak1.pix.models.Mode
 import io.ak1.pix.models.Options
+import java.io.File
+import java.net.URISyntaxException
 
 class AddPixActivity : AppCompatActivity() {
 
@@ -35,26 +44,7 @@ class AddPixActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_pix)
-        if (Build.VERSION.SDK_INT>=Build.VERSION_CODES.TIRAMISU){
-            if (checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED
-                || checkSelfPermission(Manifest.permission.READ_MEDIA_IMAGES) != PackageManager.PERMISSION_GRANTED
-                || checkSelfPermission(Manifest.permission.READ_MEDIA_AUDIO) != PackageManager.PERMISSION_GRANTED
-                || checkSelfPermission(Manifest.permission.READ_MEDIA_VIDEO) != PackageManager.PERMISSION_GRANTED
-            ) {
-                requestPermissions(
-                    arrayOf(
-                        Manifest.permission.CAMERA,
-                        Manifest.permission.READ_MEDIA_IMAGES,
-                        Manifest.permission.READ_MEDIA_AUDIO,
-                        Manifest.permission.READ_MEDIA_VIDEO
-                    ), 0
-                )
-
-                showToast("test.....")
-            }
-        }else{
-            showCameraFragment()
-        }
+        showCameraFragment()
 
     }
 
@@ -85,47 +75,52 @@ class AddPixActivity : AppCompatActivity() {
 
 
     private fun showCameraFragment() {
-        val source = intent.getStringExtra("source")
-        if (source == "reel"){
+        options.isFrontFacing = true
+        val source = intent.getStringExtra(Constants.SOURCE)
+        if (source == Constants.VIDEO){
             options.mode = Mode.Video
         }else{
             options.mode = Mode.Picture
         }
-        options.isFrontFacing = true
         addPixToActivity(R.id.container, options) { result ->
             when (result.status) {
                 PixEventCallback.Status.SUCCESS -> {
-                    if (source == "reel"){
+                    if (source == Constants.VIDEO){
                         val videoUris = result.data as ArrayList<Uri>
                         if (videoUris.isNotEmpty()) {
                             val videoUri = videoUris[0]
-                            uploadReels(videoUri, Constants.REEL_FOLDER) { videoUrl ->
+                            val file = File(Environment.getExternalStorageDirectory().absolutePath)
+                            CompressVideo().execute("false",videoUri.toString(),file.path)
+                            Log.d("TAG", "showCameraFragment: selected Video Uri $videoUri ")
+                           /* uploadReels(compressVideoUri, Constants.REEL_FOLDER) { videoUrl ->
                                 if (videoUrl != null) {
                                     val intent = Intent(this, ReelsActivity::class.java)
-                                    intent.putExtra("videoUri", videoUrl)
+                                    intent.putExtra(Constants.VIDEO_URI, videoUrl)
                                     startActivity(intent)
                                 } else {
-                                    Toast.makeText(this, "Failed to upload video", Toast.LENGTH_SHORT).show()
+                                    Toast.makeText(this, getString(R.string.failed_to_upload_video), Toast.LENGTH_SHORT).show()
                                 }
-                            }
+                            }*/
                         } else {
-                            Toast.makeText(this, "No images selected", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(this,
+                                getString(R.string.no_images_selected), Toast.LENGTH_SHORT).show()
                         }
-                    }else if (source == "story"){
+                    }else if (source == Constants.SOURCE_STORY){
                         val imageUris = result.data as ArrayList<Uri>
                         if (imageUris.isNotEmpty()) {
                             val imageUri = imageUris[0]
                             uploadImage(imageUri, Constants.STORY_FOLDER) { imageUrl ->
                                 if (imageUrl != null) {
                                     val intent = Intent(this, StoryActivity::class.java)
-                                    intent.putExtra("imageUri", imageUrl)
+                                    intent.putExtra(Constants.IMAGE_URI, imageUrl)
                                     startActivity(intent)
                                 } else {
-                                    Toast.makeText(this, "Failed to upload image", Toast.LENGTH_SHORT).show()
+                                    Toast.makeText(this,
+                                        getString(R.string.failed_to_upload_image), Toast.LENGTH_SHORT).show()
                                 }
                             }
                         } else {
-                            Toast.makeText(this, "No images selected", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(this, getString(R.string.no_images_selected), Toast.LENGTH_SHORT).show()
                         }
                     }
                     else{
@@ -135,14 +130,14 @@ class AddPixActivity : AppCompatActivity() {
                             uploadImage(imageUri, Constants.POST_FOLDER) { imageUrl ->
                                 if (imageUrl != null) {
                                     val intent = Intent(this, PostActivity::class.java)
-                                    intent.putExtra("imageUri", imageUrl)
+                                    intent.putExtra(Constants.IMAGE_URI, imageUrl)
                                     startActivity(intent)
                                 } else {
-                                    Toast.makeText(this, "Failed to upload image", Toast.LENGTH_SHORT).show()
+                                    Toast.makeText(this,  getString(R.string.failed_to_upload_image), Toast.LENGTH_SHORT).show()
                                 }
                             }
                         } else {
-                            Toast.makeText(this, "No images selected", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(this, getString(R.string.no_images_selected), Toast.LENGTH_SHORT).show()
                         }
                     }
                 }
@@ -154,7 +149,66 @@ class AddPixActivity : AppCompatActivity() {
 
 
     }
+
+    @SuppressLint("StaticFieldLeak")
+    private inner class CompressVideo : AsyncTask<String?, Uri?, String?>() {
+        var dialog: Dialog? = null
+        @Deprecated("Deprecated in Java")
+        override fun onPreExecute() {
+            super.onPreExecute()
+            dialog = ProgressDialog.show(
+                this@AddPixActivity, "", "Compressing..."
+            )
+        }
+
+        @Deprecated("Deprecated in Java")
+        override fun doInBackground(vararg p0: String?): String? {
+            var videoPath: String? = null
+            try {
+
+                val uri = Uri.parse(p0[1])
+
+                videoPath = SiliCompressor.with(this@AddPixActivity)
+                    .compressVideo(uri, p0[2])
+            } catch (e: URISyntaxException) {
+                e.printStackTrace()
+            }
+
+            return videoPath
+        }
+
+        @Deprecated("Deprecated in Java")
+        override fun onPostExecute(s: String?) {
+            super.onPostExecute(s)
+            dialog!!.dismiss()
+
+            onCompressionComplete(s)
+        }
+    }
+
+    fun onCompressionComplete(compressedVideoPath: String?) {
+        if (compressedVideoPath != null) {
+            val compressedVideoFile = File(compressedVideoPath)
+            val compressedVideoUri = FileProvider.getUriForFile(this, "${packageName}.provider", compressedVideoFile)
+            uploadReels(compressedVideoUri, Constants.REEL_FOLDER) { videoUrl ->
+                if (videoUrl != null) {
+                    val intent = Intent(this, ReelsActivity::class.java)
+                    intent.putExtra(Constants.VIDEO_URI, videoUrl)
+                    startActivity(intent)
+                } else {
+                    Toast.makeText(this, getString(R.string.failed_to_upload_video), Toast.LENGTH_SHORT).show()
+                }
+            }
+        } else {
+            Toast.makeText(this, "Failed to compress video", Toast.LENGTH_SHORT).show()
+        }
+    }
 }
+
+
+
+
+
 
 
 class ResultsFragment(private val clickCallback: View.OnClickListener) : Fragment() {

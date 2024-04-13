@@ -48,6 +48,10 @@ class SignUpActivity : BaseActivity() {
             pickImage.launch("image/*")
         }
 
+        binding.AddProfileTv.setOnClickListener {
+            pickImage.launch("image/*")
+        }
+
 
         binding.signUpButton.setOnClickListener {
             val email = binding.emailEditText.text.toString()

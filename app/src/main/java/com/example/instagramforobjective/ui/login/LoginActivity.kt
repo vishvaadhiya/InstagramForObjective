@@ -27,7 +27,7 @@ class LoginActivity : BaseActivity() {
     private var mAuth: FirebaseAuth? = null
     private lateinit var binding: ActivityLoginBinding
 
-    val pHelper by lazy {
+    private val pHelper by lazy {
 
         PreferenceHelper(this)
     }
@@ -47,7 +47,7 @@ class LoginActivity : BaseActivity() {
             spannableString.length - "Sign up".length,
             spannableString.length,
             Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
-        );
+        )
         val color: Int = getColor(R.color.sky)
         spannableString.setSpan(
             ForegroundColorSpan(color),

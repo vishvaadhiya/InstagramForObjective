@@ -21,4 +21,11 @@ object Constants {
     const val REEL_FOLDER= "PostReels"
     const val REEL= "reels"
     const val SAVED_POST= "savedPosts"
+
+    const val VIDEO_URI = "videoUri"
+    const val IMAGE_URI = "imageUri"
+    const val SOURCE = "source"
+    const val VIDEO = "REEL"
+    const val SOURCE_STORY = "story"
+
 }

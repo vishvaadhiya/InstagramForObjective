@@ -8,12 +8,21 @@
         android:layout_height="match_parent"
         tools:context=".ui.post.PostActivity">
 
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/backPress"
+            android:layout_width="@dimen/_35sdp"
+            android:layout_height="@dimen/_45sdp"
+            android:src="@drawable/ic_back_arrow_icon"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/materialToolBar"
             style="@style/Widget.MaterialComponents.Toolbar.Primary"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="?attr/actionBarSize"
             android:background="@color/white"
+            app:layout_constraintStart_toEndOf="@id/backPress"
             app:layout_constraintTop_toTopOf="parent"
             app:title="New Story"
             app:titleTextColor="@color/black" />
@@ -42,21 +51,20 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/_15sdp"
-            android:text="post"
             android:backgroundTint="@color/sky"
+            android:text="post"
             app:layout_constraintEnd_toStartOf="@id/centerGuideline"
-            app:layout_constraintTop_toBottomOf="@id/storyIv"/>
+            app:layout_constraintTop_toBottomOf="@id/storyIv" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/cancelStoryBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/_15sdp"
-            android:text="cancel"
             android:backgroundTint="@color/sky"
+            android:text="cancel"
             app:layout_constraintStart_toEndOf="@id/centerGuideline"
-            app:layout_constraintTop_toBottomOf="@id/storyIv"
-            />
+            app:layout_constraintTop_toBottomOf="@id/storyIv" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

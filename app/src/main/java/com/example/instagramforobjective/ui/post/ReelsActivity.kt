@@ -32,7 +32,7 @@ class ReelsActivity : BaseActivity() {
 
     override fun initComponents() {
         ProgressDialog.showDialog(this as AppCompatActivity)
-        videoUrl = intent.getStringExtra("videoUri")
+        videoUrl = intent.getStringExtra(Constants.VIDEO_URI)
         Glide.with(this)
             .load(videoUrl)
             .apply(RequestOptions.frameOf(0))
@@ -64,13 +64,16 @@ class ReelsActivity : BaseActivity() {
         binding.cancelReelBtn.setOnClickListener {
             goToMainActivity()
         }
+
+        binding.backPress.setOnClickListener {
+            goToMainActivity()
+        }
+
         binding.postReelBtn.setOnClickListener {
             val reel: Reel = Reel(
                 videoUrl!!,
                 binding.captionReelET.editableText.toString(),
-                FirebaseAuth.getInstance().currentUser!!.uid,
-                ""
-            )
+                FirebaseAuth.getInstance().currentUser!!.uid)
             Firebase.firestore.collection(Constants.REEL).document().set(reel)
                 .addOnSuccessListener {
                     startActivity(Intent(this, MainActivity::class.java))

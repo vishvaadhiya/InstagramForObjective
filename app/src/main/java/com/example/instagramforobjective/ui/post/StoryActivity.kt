@@ -29,8 +29,9 @@ class StoryActivity : BaseActivity() {
 
     override fun initComponents() {
         Log.d(javaClass.simpleName, "initComponents: StoryActivity ")
+
         com.example.instagramforobjective.utility.ProgressDialog.showDialog(this as AppCompatActivity)
-        imageUrl = intent.getStringExtra("imageUri")
+        imageUrl = intent.getStringExtra(Constants.IMAGE_URI)
         if (!imageUrl.isNullOrEmpty()) {
             com.example.instagramforobjective.utility.ProgressDialog.hideDialog()
             Glide.with(this)
@@ -66,6 +67,10 @@ class StoryActivity : BaseActivity() {
         }
         binding.postStoryBtn.setOnClickListener {
             postStoryYourData()
+        }
+
+        binding.backPress.setOnClickListener {
+            goToMainActivity()
         }
     }
 
