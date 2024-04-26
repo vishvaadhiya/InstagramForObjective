@@ -5,7 +5,7 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.dashboard.UserSavedFragment">
+        tools:context=".ui.profileManagement.fragment.UserSavedFragment">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/userSavedRV"

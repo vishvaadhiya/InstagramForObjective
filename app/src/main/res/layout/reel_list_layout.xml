@@ -9,7 +9,45 @@
         <VideoView
             android:id="@+id/videoView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:foregroundGravity="center"
+            />
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/reelProfileImage"
+            android:layout_width="@dimen/_50sdp"
+            android:layout_height="@dimen/_50sdp"
+            android:layout_marginStart="@dimen/_35sdp"
+            android:layout_marginBottom="@dimen/_10sdp"
+            android:src="@drawable/user"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/userNameTxt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_10sdp"
+            android:layout_marginBottom="@dimen/_30sdp"
+            android:maxLines="2"
+            android:text="@string/post"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_16sdp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/reelProfileImage" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/reelCaptionTxt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_10sdp"
+            android:layout_marginBottom="@dimen/_10sdp"
+            android:maxLines="2"
+            android:text="@string/post"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_12sdp"
+            app:layout_constraintStart_toEndOf="@id/reelProfileImage"
+            app:layout_constraintTop_toBottomOf="@id/userNameTxt" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

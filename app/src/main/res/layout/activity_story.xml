@@ -6,7 +6,8 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.post.PostActivity">
+        android:background="@color/white"
+        tools:context=".ui.postManagement.addPost.PostActivity">
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/backPress"
@@ -52,7 +53,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/_15sdp"
             android:backgroundTint="@color/sky"
-            android:text="post"
+            android:text="@string/post"
             app:layout_constraintEnd_toStartOf="@id/centerGuideline"
             app:layout_constraintTop_toBottomOf="@id/storyIv" />
 
@@ -62,7 +63,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/_15sdp"
             android:backgroundTint="@color/sky"
-            android:text="cancel"
+            android:text="@string/cancel_btn"
             app:layout_constraintStart_toEndOf="@id/centerGuideline"
             app:layout_constraintTop_toBottomOf="@id/storyIv" />
 

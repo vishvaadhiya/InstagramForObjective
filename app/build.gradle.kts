@@ -1,3 +1,5 @@
+import org.gradle.internal.impldep.org.junit.experimental.categories.Categories.CategoryFilter.exclude
+
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
@@ -75,5 +77,13 @@ dependencies {
 
     implementation("com.iceteck.silicompressorr:silicompressor:2.2.4")
     implementation("com.googlecode.mp4parser:isoparser:1.1.22")
+
+    //viewmodel
+    implementation ("androidx.lifecycle:lifecycle-viewmodel-ktx:2.7.0")
+    implementation ("androidx.lifecycle:lifecycle-livedata-ktx:2.7.0")
+    implementation ("androidx.lifecycle:lifecycle-extensions:2.2.0")
+
+    implementation("androidx.activity:activity-ktx:1.8.2")
+    implementation ("androidx.fragment:fragment-ktx:1.6.2")
 
 }
