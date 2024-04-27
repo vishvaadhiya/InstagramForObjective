@@ -10,8 +10,12 @@ import com.example.instagram.data.models.SavedPost
 import com.example.instagram.data.models.User
 import com.example.instagram.utils.Constants
 import com.example.instagram.utils.getCurrentUserId
+import com.example.instagramforobjective.ui.model.Post
+import com.example.instagramforobjective.ui.model.Reel
+import com.example.instagramforobjective.ui.model.SavedPost
 import com.google.firebase.Firebase
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.auth.User
 import com.google.firebase.firestore.firestore
 import com.google.firebase.firestore.toObject
 
