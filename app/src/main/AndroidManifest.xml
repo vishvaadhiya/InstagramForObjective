@@ -21,7 +21,7 @@
     <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
 
     <application
-        android:name=".App"
+        android:name=".ui.App"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -31,14 +31,14 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".ui.shared.AddPixActivity"
+            android:name=".ui.dashboard.AddPixActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.profileManagement.shared.ViewPostReelActivity"
+            android:name=".ui.dashboard.PostImageActivity"
             android:exported="false"
             android:theme="@style/Base.Theme.InstagramForObjective" />
         <activity
-            android:name=".ui.startUpModule.SplashActivity"
+            android:name=".ui.SplashActivity"
             android:exported="true"
             android:screenOrientation="portrait"
             android:theme="@style/SplashTheme">
@@ -49,36 +49,36 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.postManagement.addStory.StoryActivity"
+            android:name=".ui.post.StoryActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.reelManagement.addReel.AddReelActivity"
+            android:name=".ui.post.ReelsActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.postManagement.addPost.PostActivity"
+            android:name=".ui.post.PostActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".base.FragmentContainerActivity"
+            android:name=".ui.dashboard.FragmentContainerActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.startUpModule.OnBoardingActivity"
+            android:name=".ui.onborading.OnBoardingActivity"
             android:exported="false"
             android:screenOrientation="portrait"></activity>
         <activity
-            android:name=".ui.userManagement.signup.SignUpActivity"
+            android:name=".ui.signup.SignUpActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.userManagement.login.LoginActivity"
+            android:name=".ui.login.LoginActivity"
             android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/Base.Theme.InstagramForObjective" />
         <activity
-            android:name=".ui.homeModule.HomeActivity"
+            android:name=".ui.dashboard.MainActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
 

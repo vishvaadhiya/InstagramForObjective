@@ -20,7 +20,7 @@
             android:layout_width="match_parent"
             android:orientation="vertical"
             android:backgroundTint="@color/white"
-            tools:context=".ui.homeModule.ProfileFragment">
+            tools:context=".ui.home.ProfileFragment">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/bioCl"
@@ -44,7 +44,6 @@
                     android:layout_width="@dimen/_80sdp"
                     android:layout_marginStart="@dimen/_10sdp"
                     android:text="Name"
-                    android:textColor="@color/black"
                     app:layout_constraintStart_toEndOf="@id/profile_image"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -57,7 +56,6 @@
                     android:layout_width="@dimen/_120sdp"
                     android:maxLines="1"
                     android:text="Time"
-                    android:textColor="@color/black"
                     android:textSize="@dimen/_13ssp"
                     app:layout_constraintStart_toEndOf="@id/profile_image"
                     app:layout_constraintTop_toBottomOf="@id/nameTextView" />
