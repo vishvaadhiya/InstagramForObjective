@@ -98,8 +98,10 @@ class AddPixActivity : AppCompatActivity() {
                         val imageUris = result.data as ArrayList<Uri>
                         if (imageUris.isNotEmpty()) {
                             val imageUri = imageUris[0]
+                            com.example.instagramforobjective.utils.customViews.ProgressDialog.getInstance(this).show()
                             uploadImage(this,imageUri, Constants.STORY_FOLDER) { imageUrl ->
                                 if (imageUrl != null) {
+                                    com.example.instagramforobjective.utils.customViews.ProgressDialog.getInstance(this).hide()
                                     val intent = Intent(this, StoryActivity::class.java)
                                     intent.putExtra(Constants.IMAGE_URI, imageUrl)
                                     startActivity(intent)

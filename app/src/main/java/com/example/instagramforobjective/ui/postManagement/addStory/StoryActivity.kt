@@ -27,12 +27,10 @@ class StoryActivity : BaseActivity() {
 
     override fun initComponents() {
         Log.d(javaClass.simpleName, "initComponents: StoryActivity ")
-//        ProgressDialog.showDialog(this as AppCompatActivity)
         ProgressDialog.getInstance(this).show()
         imageUrl = intent.getStringExtra(Constants.IMAGE_URI)
         if (!imageUrl.isNullOrEmpty()) {
             ProgressDialog.getInstance(this).hide()
-//            ProgressDialog.hideDialog()
             Glide.with(this)
                 .load(imageUrl)
                 .listener(object : RequestListener<Drawable> {
@@ -43,7 +41,6 @@ class StoryActivity : BaseActivity() {
                         isFirstResource: Boolean,
                     ): Boolean {
                         ProgressDialog.getInstance(this@StoryActivity).hide()
-//                        ProgressDialog.hideDialog()
                         return false
                     }
 
@@ -55,7 +52,6 @@ class StoryActivity : BaseActivity() {
                         isFirstResource: Boolean,
                     ): Boolean {
                         ProgressDialog.getInstance(this@StoryActivity).hide()
-//                        ProgressDialog.hideDialog()
                         return false
                     }
                 }).into(binding.storyIv)
