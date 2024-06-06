@@ -104,18 +104,16 @@
                     app:layout_constraintTop_toTopOf="@id/homeLikeImage"
                     app:srcCompat="@drawable/ic_send" />
 
-                <!--<androidx.appcompat.widget.AppCompatImageView
+                <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/homeSaveImage"
                     android:layout_height="@dimen/_18sdp"
                     android:layout_marginEnd="@dimen/_5sdp"
                     android:layout_width="@dimen/_20sdp"
-                    app:layout_constraintEnd_toStartOf="@id/homeSaveImage"
                     android:layout_marginBottom="@dimen/_5sdp"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/homeShareImage"
                     app:layout_constraintTop_toTopOf="@id/homeLikeImage"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:srcCompat="@drawable/ic_save" />-->
+                    app:srcCompat="@drawable/ic_save" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </LinearLayout>

@@ -5,6 +5,7 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Color
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,14 +15,15 @@ import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.instagramforobjective.ui.shared.AddPixActivity
+import com.example.instagramforobjective.R
 import com.example.instagramforobjective.data.models.Story
 import com.example.instagramforobjective.data.models.User
-import com.example.instagramforobjective.utils.Constants
-import com.example.instagramforobjective.R
 import com.example.instagramforobjective.databinding.AddStoryBinding
 import com.example.instagramforobjective.databinding.StoryListLayoutBinding
+import com.example.instagramforobjective.ui.shared.AddPixActivity
+import com.example.instagramforobjective.utils.Constants
 import com.github.marlonlom.utilities.timeago.TimeAgo
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
@@ -68,7 +70,7 @@ class StoryAdapter(
         when (holder.itemViewType) {
             VIEW_TYPE_ADD_STORY -> {
                 val addStoryViewHolder = holder as AddStoryViewHolder
-                addStoryViewHolder.bind()
+                addStoryViewHolder.bind(position)
             }
 
             VIEW_TYPE_STORY -> {
@@ -92,13 +94,28 @@ class StoryAdapter(
 
     inner class AddStoryViewHolder(private val binding: AddStoryBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind() {
-            binding.addPicIv.setImageResource(R.drawable.ic_plus_story)
-            binding.addPicIv.setOnClickListener {
-                val intent = Intent(context, AddPixActivity::class.java)
-                intent.putExtra(Constants.SOURCE, Constants.STORY)
-                context.startActivity(intent)
+        fun bind(position: Int) {
+            if (position >= 0 && position < storyList.size) {
+                Log.d("TAG", "bind: ${FirebaseAuth.getInstance().currentUser!!.uid}")
+                Firebase.firestore.collection(Constants.USER).document(storyList[position].uid)
+                    .get().addOnSuccessListener {
+                        val user = it.toObject<User>()
+                        Glide.with(context).load(user?.image).into(binding.userImage)
+                    }
+                Glide.with(context)
+                    .load(storyList[position].storyUrl)
+                    .placeholder(R.drawable.user)
+                    .into(binding.userImage)
+
+                binding.storyLayout.setOnClickListener {
+                    val intent = Intent(context, AddPixActivity::class.java)
+                    intent.putExtra(Constants.SOURCE, Constants.STORY)
+                    context.startActivity(intent)
+                }
+            } else {
+                Log.e("TAG", "Invalid position: $position")
             }
+
         }
     }
 
@@ -109,6 +126,7 @@ class StoryAdapter(
                 .get().addOnSuccessListener {
                     val user = it.toObject<User>()
                     binding.userNameTxt.text = user?.name
+                    Glide.with(context).load(user?.image).into(binding.profilePic)
                 }
             Glide.with(context)
                 .load(storyList[position].storyUrl)

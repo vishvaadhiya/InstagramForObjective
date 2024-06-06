@@ -55,4 +55,6 @@
     <string name="failed_to_upload_image">Failed to upload image</string>
     <string name="edit_picture">Edit Picture</string>
     <string name="add_picture">Add Picture</string>
+    <string name="your_story">Your Story</string>
+    <string name="already_saved_this_post">Already Saved this Post</string>
 </resources>

@@ -1,6 +1,7 @@
 package com.example.instagramforobjective.ui.reelManagement.addReel
 
 import android.graphics.drawable.Drawable
+import android.net.Uri
 import androidx.activity.viewModels
 import androidx.databinding.ViewDataBinding
 import com.bumptech.glide.Glide
@@ -17,6 +18,7 @@ import com.example.instagramforobjective.utils.goToMainActivity
 import com.example.instagramforobjective.utils.showToast
 import com.example.instagramforobjective.R
 import com.example.instagramforobjective.databinding.ActivityAddReelBinding
+import com.example.instagramforobjective.utils.uploadReels
 
 class AddReelActivity : BaseActivity() {
 
@@ -25,7 +27,6 @@ class AddReelActivity : BaseActivity() {
     private val postViewModel: PostViewModel by viewModels()
 
     override fun initComponents() {
-//        ProgressDialog.showDialog(this as AppCompatActivity)
         ProgressDialog.getInstance(this).show()
         videoUrl = intent.getStringExtra(Constants.VIDEO_URI)
         Glide.with(this)
@@ -39,7 +40,6 @@ class AddReelActivity : BaseActivity() {
                     isFirstResource: Boolean,
                 ): Boolean {
                     ProgressDialog.getInstance(this@AddReelActivity).hide()
-//                    ProgressDialog.hideDialog()
                     return false
                 }
 
@@ -51,7 +51,6 @@ class AddReelActivity : BaseActivity() {
                     isFirstResource: Boolean,
                 ): Boolean {
                     ProgressDialog.getInstance(this@AddReelActivity).hide()
-//                    ProgressDialog.hideDialog()
                     return false
                 }
             })
@@ -67,15 +66,23 @@ class AddReelActivity : BaseActivity() {
         }
 
         binding.postReelBtn.setOnClickListener {
-            postYourReel(videoUrl.toString())
+            val video = Uri.parse(videoUrl)
+            ProgressDialog.getInstance(this).show()
+            uploadReels(this, video, Constants.REEL_FOLDER) { videoUrl ->
+                if (videoUrl != null) {
+                    postYourReel(videoUrl.toString())
+                }
+            }
         }
     }
 
-    private fun postYourReel(videoUrl : String){
+    private fun postYourReel(videoUrl: String) {
+        ProgressDialog.getInstance(this).show()
         postViewModel.postYourReel(
             videoUrl,
             binding.captionReelET.editableText.toString(),
             onSuccess = {
+                ProgressDialog.getInstance(this).hide()
                 goToMainActivity()
             },
             onError = {
@@ -94,13 +101,3 @@ class AddReelActivity : BaseActivity() {
     }
 
 }
-
-/* if (Build.VERSION.SDK_INT>=Build.VERSION_CODES.TIRAMISU){
-               val video = Uri.parse(videoUrl)
-               Log.d("TAG", "initComponents video: $video ")
-               uploadReels(this,video,Constants.REEL_FOLDER){
-                   Log.d("TAG", "initComponents it: $it ")
-                   postYourReel(it.toString())
-               }
-           }else{
-           }*/

@@ -37,14 +37,10 @@ class ReelFragment : BaseFragment() {
                 positionOffsetPixels: Int,
             ) {
                 super.onPageScrolled(position, positionOffset, positionOffsetPixels)
-//                requireContext().showToast("$position")
                 Log.e(javaClass.simpleName, "onPageScrolled: $position")
             }
             override fun onPageSelected(position: Int) {
                 super.onPageSelected(position)
-                /*if (ProgressDialog.getInstance(requireContext()). == true){
-                    ProgressDialog.hideDialog()
-                }*/
                 ProgressDialog.getInstance(requireContext()).show()
                 Log.e(javaClass.simpleName, "onPageSelected: $position")
             }

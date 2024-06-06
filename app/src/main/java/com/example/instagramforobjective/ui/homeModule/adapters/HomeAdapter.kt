@@ -3,6 +3,7 @@ package com.example.instagramforobjective.ui.homeModule.adapters
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 import android.widget.ImageView
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.DiffUtil
@@ -14,8 +15,10 @@ import com.example.instagramforobjective.utils.Constants
 import com.example.instagramforobjective.utils.helpers.PreferenceHelper
 import com.example.instagramforobjective.R
 import com.example.instagramforobjective.databinding.PostListItemBinding
+import com.example.instagramforobjective.utils.showToast
 import com.github.marlonlom.utilities.timeago.TimeAgo
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.toObject
 import com.google.firebase.ktx.Firebase
@@ -25,7 +28,7 @@ class HomeAdapter(
     var context: Context,
     var postList: ArrayList<Post>,
     private val preferenceHelper: PreferenceHelper,
-    var currentID: String?
+    var currentID: String?,
 ) : BaseAdapter() {
     override fun getDataAtPosition(position: Int): Any {
         return postList[position]
@@ -74,16 +77,14 @@ class HomeAdapter(
             val post = postList[position]
             viewDataBinding.homeLikeImage.setOnClickListener {
                 toggleLikeState(post.postId)
-                setLikeIcon(post.postId, viewDataBinding.homeLikeImage)
             }
             setLikeIcon(post.postId, viewDataBinding.homeLikeImage)
 
             //save button
-            /*viewDataBinding.homeSaveImage.setOnClickListener {
-                val post = postList[position]
+            viewDataBinding.homeSaveImage.setOnClickListener {
+                /*val post = postList[position]
 
                 if (!post.isSavedImage) {
-                    post.isSavedImage = true
                     viewDataBinding.homeSaveImage.setImageResource(R.drawable.save)
                     val firestore = FirebaseFirestore.getInstance()
                     val collectionRef = firestore.collection(Constants.SAVED_POST)
@@ -107,8 +108,46 @@ class HomeAdapter(
                                     .addOnFailureListener { e ->
                                         Log.d("TAG", "Exception: $e")
                                     }
+                            }
+                        }
+                        .addOnFailureListener { e ->
+                            Log.d("TAG", "Exception: $e")
+                        }
+                } else {
+                   viewDataBinding.homeSaveImage.setImageResource(R.drawable.save)
+                   context.showToast(context.getString(R.string.already_saved_this_post))
+                }*/
+                val post = postList[position]
+
+                val firestore = FirebaseFirestore.getInstance()
+                val collectionRef = firestore.collection(Constants.SAVED_POST)
+
+                if (!post.isSavedImage) {
+                    collectionRef.whereEqualTo("postUrl", post.postUrl)
+                        .get()
+                        .addOnSuccessListener { documents ->
+                            if (documents.isEmpty) {
+                                val newDocumentRef = collectionRef.document()
+
+                                val data = hashMapOf(
+                                    "postId" to post.postId,
+                                    "postUrl" to post.postUrl,
+                                    "caption" to post.caption,
+                                    "uid" to post.uid
+                                )
+
+                                newDocumentRef.set(data)
+                                    .addOnSuccessListener {
+                                        toggleSavedState(post.postId)
+                                        post.isSavedImage = true
+                                        viewDataBinding.homeSaveImage.setImageResource(R.drawable.save)
+                                        context.showToast(context.getString(R.string.successfully_saved))
+                                    }
+                                    .addOnFailureListener { e ->
+                                        Log.d("TAG", "Exception: $e")
+                                    }
                             } else {
-                                viewDataBinding.homeSaveImage.setImageResource(R.drawable.save)
+                                context.showToast(context.getString(R.string.already_saved_this_post))
                             }
                         }
                         .addOnFailureListener { e ->
@@ -116,20 +155,15 @@ class HomeAdapter(
                         }
                 } else {
                     viewDataBinding.homeSaveImage.setImageResource(R.drawable.save)
+                    context.showToast(context.getString(R.string.already_saved_this_post))
                 }
             }
-
-            if (!postList.get(position).isSavedImage) {
-                viewDataBinding.homeSaveImage.setImageResource(R.drawable.ic_save)
-            } else {
-                viewDataBinding.homeSaveImage.setImageResource(R.drawable.save)
-            }*/
+            setSavedIcon(post.postId,viewDataBinding.homeSaveImage)
         }
     }
 
     private fun toggleLikeState(postId: String) {
-        val isLiked =
-            preferenceHelper.loadLikeState(postId, FirebaseAuth.getInstance().currentUser!!.uid)
+        val isLiked = preferenceHelper.loadLikeState(postId, FirebaseAuth.getInstance().currentUser!!.uid)
 
         val updatedLikeState = !isLiked
         preferenceHelper.saveLikeState(
@@ -140,13 +174,33 @@ class HomeAdapter(
     }
 
     private fun setLikeIcon(postId: String, imageView: ImageView) {
-        val isLiked =
-            preferenceHelper.loadLikeState(postId, FirebaseAuth.getInstance().currentUser!!.uid)
+        val isLiked = preferenceHelper.loadLikeState(postId, FirebaseAuth.getInstance().currentUser!!.uid)
 
         if (isLiked) {
             imageView.setImageResource(R.drawable.fill_heart)
         } else {
             imageView.setImageResource(R.drawable.heart)
+        }
+    }
+
+    private fun toggleSavedState(postId: String) {
+        val isLiked = preferenceHelper.loadLikeState(postId, FirebaseAuth.getInstance().currentUser!!.uid)
+
+        val updatedLikeState = !isLiked
+        preferenceHelper.savedState(
+            postId,
+            FirebaseAuth.getInstance().currentUser!!.uid,
+            updatedLikeState
+        )
+    }
+
+    private fun setSavedIcon(postId: String, imageView: ImageView) {
+        val isLiked = preferenceHelper.loadSavedState(postId, FirebaseAuth.getInstance().currentUser!!.uid)
+
+        if (isLiked) {
+            imageView.setImageResource(R.drawable.save)
+        } else {
+            imageView.setImageResource(R.drawable.ic_save)
         }
     }
 
@@ -166,7 +220,7 @@ class HomeAdapter(
 
     private class PostDiffCallback(
         private val oldList: List<Post>,
-        private val newList: List<Post>
+        private val newList: List<Post>,
     ) : DiffUtil.Callback() {
 
         override fun getOldListSize(): Int = oldList.size

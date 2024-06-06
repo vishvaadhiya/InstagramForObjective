@@ -32,6 +32,16 @@ class PreferenceHelper(context: Context) {
         return sharedPreferences?.getBoolean(key, false) == true
     }
 
+    fun savedState(postId: String, userId: String, isSaved: Boolean) {
+        val key = generateLikeKey(postId, userId)
+        sharedPreferences?.edit()?.putBoolean(key, isSaved)?.apply()
+    }
+
+    fun loadSavedState(postId: String, userId: String): Boolean {
+        val key = generateLikeKey(postId, userId)
+        return sharedPreferences?.getBoolean(key, false) == true
+    }
+
 
     private fun generateLikeKey(postId: String, userId: String): String {
         return "like_${postId}_$userId"

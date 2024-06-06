@@ -82,6 +82,7 @@ class UserViewModel : ViewModel() {
         val currentUserUid = getCurrentUserId()
         if (currentUserUid != null) {
             Firebase.firestore.collection(Constants.SAVED_POST)
+                .whereEqualTo("uid", currentUserUid)
                 .get()
                 .addOnSuccessListener { postSnapshot ->
                     val tempList = arrayListOf<SavedPost>()

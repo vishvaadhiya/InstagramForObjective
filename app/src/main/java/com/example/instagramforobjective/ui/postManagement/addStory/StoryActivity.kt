@@ -1,6 +1,7 @@
 package com.example.instagramforobjective.ui.postManagement.addStory
 
 import android.graphics.drawable.Drawable
+import android.net.Uri
 import android.util.Log
 import android.widget.Toast
 import androidx.activity.viewModels
@@ -18,6 +19,7 @@ import com.example.instagramforobjective.utils.goToMainActivity
 import com.example.instagramforobjective.utils.showToast
 import com.example.instagramforobjective.R
 import com.example.instagramforobjective.databinding.ActivityStoryBinding
+import com.example.instagramforobjective.utils.uploadImage
 
 class StoryActivity : BaseActivity() {
 
@@ -63,7 +65,19 @@ class StoryActivity : BaseActivity() {
             goToMainActivity()
         }
         binding.postStoryBtn.setOnClickListener {
-            postStoryYourData()
+            val image = Uri.parse(imageUrl)
+            Log.d("StoryActivity", "Image URL: $imageUrl")
+            if (image != null) {
+                uploadImage(this, image, Constants.STORY_FOLDER) { uploadedImageUrl ->
+                    if (uploadedImageUrl != null) {
+                        postStoryYourData(uploadedImageUrl)
+                    } else {
+                        showToast("Failed to upload image")
+                    }
+                }
+            } else {
+                showToast("Image URL is null")
+            }
         }
 
         binding.backPress.setOnClickListener {
@@ -79,19 +93,15 @@ class StoryActivity : BaseActivity() {
         this.binding = binding as ActivityStoryBinding
     }
 
-    private fun postStoryYourData() {
-        if (imageUrl != null) {
-            postViewModel.postYourStoryImage(
-                imageUrl!!,
-                onSuccess = {
-                    goToMainActivity()
-                },
-                onError = { exception ->
-                    showToast(exception)
-                }
-            )
-        } else {
-            showToast(getString(R.string.please_upload_image_first))
-        }
+    private fun postStoryYourData(image: String?) {
+        postViewModel.postYourStoryImage(
+            image,
+            onSuccess = {
+                goToMainActivity()
+            },
+            onError = { exception ->
+                showToast(exception)
+            }
+        )
     }
 }

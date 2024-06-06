@@ -1,6 +1,7 @@
 package com.example.instagramforobjective.ui.postManagement.addPost
 
 import android.graphics.drawable.Drawable
+import android.net.Uri
 import androidx.activity.viewModels
 import androidx.databinding.ViewDataBinding
 import com.bumptech.glide.Glide
@@ -16,6 +17,7 @@ import com.example.instagramforobjective.utils.goToMainActivity
 import com.example.instagramforobjective.utils.showToast
 import com.example.instagramforobjective.R
 import com.example.instagramforobjective.databinding.ActivityPostBinding
+import com.example.instagramforobjective.utils.uploadImage
 
 class PostActivity : BaseActivity() {
 
@@ -24,7 +26,6 @@ class PostActivity : BaseActivity() {
     private val postViewModel: PostViewModel by viewModels()
 
     override fun initComponents() {
-//        ProgressDialog.showDialog(this as AppCompatActivity)
         ProgressDialog.getInstance(this).show()
         imageUrl = intent.getStringExtra(Constants.IMAGE_URI)
         if (!imageUrl.isNullOrEmpty()) {
@@ -37,7 +38,6 @@ class PostActivity : BaseActivity() {
                         target: Target<Drawable>?,
                         isFirstResource: Boolean,
                     ): Boolean {
-//                        ProgressDialog.hideDialog()
                         ProgressDialog.getInstance(this@PostActivity).hide()
                         return false
                     }
@@ -50,7 +50,6 @@ class PostActivity : BaseActivity() {
                         isFirstResource: Boolean,
                     ): Boolean {
                         ProgressDialog.getInstance(this@PostActivity).hide()
-//                        ProgressDialog.hideDialog()
                         return false
                     }
                 }).into(binding.postImage)
@@ -62,7 +61,12 @@ class PostActivity : BaseActivity() {
             goToMainActivity()
         }
         binding.postBtn.setOnClickListener {
-            postYourData()
+            val image = Uri.parse(imageUrl)
+            uploadImage(this,image,Constants.POST_FOLDER){ uploadedImageUrl->
+                if (uploadedImageUrl!=null){
+                    postYourData(uploadedImageUrl)
+                }
+            }
         }
 
         binding.backPress.setOnClickListener {
@@ -78,14 +82,12 @@ class PostActivity : BaseActivity() {
         this.binding = binding as ActivityPostBinding
     }
 
-    private fun postYourData() {
+    private fun postYourData(image:String?) {
         ProgressDialog.getInstance(this).show()
-//        ProgressDialog.showDialog(this as AppCompatActivity)
         postViewModel.postYourImage(
-            imageUrl, binding.captionET.editableText.toString(),
+            image, binding.captionET.editableText.toString(),
             onSuccess = {
                 ProgressDialog.getInstance(this).hide()
-//                ProgressDialog.hideDialog()
                 goToMainActivity()
             },
             onError = { errorMessage ->
@@ -94,14 +96,3 @@ class PostActivity : BaseActivity() {
         )
     }
 }
-
-
-/*if (Build.VERSION.SDK_INT>=Build.VERSION_CODES.TIRAMISU){
-                val image = Uri.parse(imageUrl)
-                uploadImage(this, image,Constants.POST_FOLDER){
-                    if (it != null){
-                        postYourData(it.toString())
-                    }
-                }
-            }else{
-            }*/

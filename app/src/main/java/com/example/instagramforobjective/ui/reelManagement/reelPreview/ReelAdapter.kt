@@ -37,24 +37,20 @@ class ReelAdapter(var context: Context, private var reelList: ArrayList<Reel>) :
                 mediaControls!!.setAnchorView(viewDataBinding.videoView)
             }
             ProgressDialog.getInstance(context).show()
-//            ProgressDialog.showDialog(context as AppCompatActivity)
             val videoUri = Uri.parse(reelList[position].reelUrl)
             viewDataBinding.videoView.setMediaController(mediaControls)
             viewDataBinding.videoView.setVideoURI(videoUri)
             viewDataBinding.videoView.setOnPreparedListener { mediaPlayer ->
                 Log.d("TAG", "itemViewDataBinding:video prepare ")
                 ProgressDialog.getInstance(context).hide()
-//                ProgressDialog.hideDialog()
                 mediaPlayer.start()
             }
-            context.showToast(reelList.get(position).uid)
             viewDataBinding.userNameTxt.text = reelList[position].name
             Glide.with(context).load(reelList[position].profileLink)
                 .into(viewDataBinding.reelProfileImage)
             viewDataBinding.reelCaptionTxt.text = reelList[position].caption
             viewDataBinding.videoView.setOnErrorListener { _, _, _ ->
                 ProgressDialog.getInstance(context).hide()
-//                ProgressDialog.hideDialog()
                 Toast.makeText(context, "Error", Toast.LENGTH_LONG).show()
                 false
             }

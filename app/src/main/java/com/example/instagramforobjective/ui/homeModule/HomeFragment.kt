@@ -85,6 +85,9 @@ class HomeFragment : BaseFragment() {
             val isLiked =
                 pHelpers.loadLikeState(post.postId, FirebaseAuth.getInstance().currentUser!!.uid)
             post.isLikedImage = isLiked
+
+            val isSaved = pHelpers.loadSavedState(post.postId, FirebaseAuth.getInstance().currentUser!!.uid)
+            post.isSavedImage = isSaved
         }
 
         adapter.notifyDataSetChanged()

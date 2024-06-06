@@ -29,8 +29,7 @@ class ProgressDialog private constructor(context: Context) {
     }
 
     fun show() {
-        if (!customDialog.isShowing)
-            customDialog.show()
+        customDialog.show()
     }
 
     fun hide() {
