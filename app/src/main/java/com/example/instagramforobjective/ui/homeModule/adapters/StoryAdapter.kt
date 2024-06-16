@@ -70,7 +70,7 @@ class StoryAdapter(
         when (holder.itemViewType) {
             VIEW_TYPE_ADD_STORY -> {
                 val addStoryViewHolder = holder as AddStoryViewHolder
-                addStoryViewHolder.bind(position)
+                addStoryViewHolder.bind()
             }
 
             VIEW_TYPE_STORY -> {
@@ -94,53 +94,65 @@ class StoryAdapter(
 
     inner class AddStoryViewHolder(private val binding: AddStoryBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(position: Int) {
-            if (position >= 0 && position < storyList.size) {
-                Log.d("TAG", "bind: ${FirebaseAuth.getInstance().currentUser!!.uid}")
-                Firebase.firestore.collection(Constants.USER).document(storyList[position].uid)
-                    .get().addOnSuccessListener {
-                        val user = it.toObject<User>()
-                        Glide.with(context).load(user?.image).into(binding.userImage)
-                    }
-                Glide.with(context)
-                    .load(storyList[position].storyUrl)
-                    .placeholder(R.drawable.user)
-                    .into(binding.userImage)
 
-                binding.storyLayout.setOnClickListener {
-                    val intent = Intent(context, AddPixActivity::class.java)
-                    intent.putExtra(Constants.SOURCE, Constants.STORY)
-                    context.startActivity(intent)
-                }
+        fun bind() {
+            val currentUser = FirebaseAuth.getInstance().currentUser
+            if (currentUser != null) {
+                Log.d("TAG", "bind: ${currentUser.uid}")
+                Firebase.firestore.collection(Constants.USER)
+                    .document(currentUser.uid)
+                    .get()
+                    .addOnSuccessListener { document ->
+                        val user = document.toObject<User>()
+                        if (user?.image != null) {
+                            Glide.with(context)
+                                .load(user.image)
+                                .placeholder(R.drawable.user)
+                                .into(binding.userImage)
+                        }
+                    }
+                    .addOnFailureListener { exception ->
+                        binding.userImage.setImageResource(R.drawable.user)
+                    }
             } else {
-                Log.e("TAG", "Invalid position: $position")
+                Log.e("TAG", "User is not authenticated")
+                binding.userImage.setImageResource(R.drawable.user)
+                return
             }
 
+            binding.storyLayout.setOnClickListener {
+                val intent = Intent(context, AddPixActivity::class.java).apply {
+                    putExtra(Constants.SOURCE, Constants.STORY)
+                }
+                context.startActivity(intent)
+            }
         }
     }
+
 
     inner class StoryViewHolder(private val binding: StoryListLayoutBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(position: Int) {
-            Firebase.firestore.collection(Constants.USER).document(storyList[position].uid)
+            val story = storyList[position]
+            Firebase.firestore.collection(Constants.USER).document(story.uid)
                 .get().addOnSuccessListener {
                     val user = it.toObject<User>()
                     binding.userNameTxt.text = user?.name
                     Glide.with(context).load(user?.image).into(binding.profilePic)
                 }
             Glide.with(context)
-                .load(storyList[position].storyUrl)
+                .load(story.storyUrl)
                 .placeholder(R.drawable.user)
                 .into(binding.profilePic)
 
 
             binding.profilePic.setOnClickListener {
-                val largerImageUrl = storyList[position].storyUrl
+                val largerImageUrl = story.storyUrl
                 displayLargerImage(
                     largerImageUrl,
                     binding.profilePic,
                     binding.userNameTxt.text.toString(),
-                    TimeAgo.using(storyList[position].time.toLong())
+                    TimeAgo.using(story.time.toLong())
                 )
             }
         }
@@ -241,7 +253,6 @@ class StoryAdapter(
             profilePic.borderColor = Color.BLACK
             updateProgressJob.cancel()
         }
-
     }
 
     private fun applyBlurEffect() {
