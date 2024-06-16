@@ -30,7 +30,10 @@ class SearchFragment : BaseFragment(), SearchAdapter.OnFollowButtonClickListener
     lateinit var binding: FragmentSearchBinding
     private lateinit var adapter: SearchAdapter
     private var userList = ArrayList<User>()
-    private val searchViewModel: SearchViewModel by viewModels()
+    private val repository: SearchRepository by lazy { SearchRepository() }
+    private val searchViewModel: SearchViewModel by viewModels {
+        SearchViewModelFactory(repository)
+    }
 
     override fun defineLayout(): Int {
         return R.layout.fragment_search
@@ -74,9 +77,9 @@ class SearchFragment : BaseFragment(), SearchAdapter.OnFollowButtonClickListener
 //        ProgressDialog.showDialog(requireActivity() as AppCompatActivity)
         progressDialog.show()
         binding.searchRv.layoutManager = LinearLayoutManager(requireContext())
-        adapter = SearchAdapter(requireContext(), userList, this)
+        adapter = SearchAdapter(userList, this)
         binding.searchRv.adapter = adapter
-        searchViewModel.fetchUser(onSuccess = {
+        searchViewModel.fetchUsers(onSuccess = {
             userList.clear()
             userList.addAll(it)
             for (user in it) {
