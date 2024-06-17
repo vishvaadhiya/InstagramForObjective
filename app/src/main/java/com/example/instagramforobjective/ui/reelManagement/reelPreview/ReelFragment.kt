@@ -10,6 +10,9 @@ import com.example.instagramforobjective.data.models.Reel
 import com.example.instagramforobjective.utils.customViews.ProgressDialog
 import com.example.instagramforobjective.R
 import com.example.instagramforobjective.databinding.FragmentReelBinding
+import com.example.instagramforobjective.ui.searchModule.SearchRepository
+import com.example.instagramforobjective.ui.searchModule.SearchViewModel
+import com.example.instagramforobjective.ui.searchModule.SearchViewModelFactory
 
 
 class ReelFragment : BaseFragment() {
@@ -17,7 +20,10 @@ class ReelFragment : BaseFragment() {
     lateinit var binding: FragmentReelBinding
     private lateinit var adapter: ReelAdapter
     private var reelList = ArrayList<Reel>()
-    private val reelViewModel: ReelViewModel by viewModels()
+    private val repository: ReelRepository by lazy { ReelRepository() }
+    private val reelViewModel: ReelViewModel by viewModels {
+        ReelViewModelFactory(repository)
+    }
 
     override fun defineLayout(): Int {
         return R.layout.fragment_reel
@@ -52,8 +58,8 @@ class ReelFragment : BaseFragment() {
 
             }
         })
-        reelViewModel.getUserReels()
-        reelViewModel.reelLiveData.observe(viewLifecycleOwner) { reelList ->
+        reelViewModel.getReel()
+        repository.reelLiveData.observe(viewLifecycleOwner) { reelList ->
             adapter.updateReel(reelList)
         }
 
