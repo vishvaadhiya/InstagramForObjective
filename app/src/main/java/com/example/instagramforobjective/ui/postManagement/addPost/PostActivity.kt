@@ -26,7 +26,7 @@ class PostActivity : BaseActivity() {
     private val postViewModel: PostViewModel by viewModels()
 
     override fun initComponents() {
-        ProgressDialog.getInstance(this).show()
+        ProgressDialog.showDialog(this)
         imageUrl = intent.getStringExtra(Constants.IMAGE_URI)
         if (!imageUrl.isNullOrEmpty()) {
             Glide.with(this)
@@ -38,7 +38,7 @@ class PostActivity : BaseActivity() {
                         target: Target<Drawable>?,
                         isFirstResource: Boolean,
                     ): Boolean {
-                        ProgressDialog.getInstance(this@PostActivity).hide()
+                        ProgressDialog.hideDialog()
                         return false
                     }
 
@@ -49,7 +49,7 @@ class PostActivity : BaseActivity() {
                         dataSource: DataSource?,
                         isFirstResource: Boolean,
                     ): Boolean {
-                        ProgressDialog.getInstance(this@PostActivity).hide()
+                        ProgressDialog.hideDialog()
                         return false
                     }
                 }).into(binding.postImage)
@@ -83,11 +83,11 @@ class PostActivity : BaseActivity() {
     }
 
     private fun postYourData(image:String?) {
-        ProgressDialog.getInstance(this).show()
+        ProgressDialog.showDialog(this)
         postViewModel.postYourImage(
             image, binding.captionET.editableText.toString(),
             onSuccess = {
-                ProgressDialog.getInstance(this).hide()
+                ProgressDialog.hideDialog()
                 goToMainActivity()
             },
             onError = { errorMessage ->

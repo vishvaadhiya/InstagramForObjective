@@ -6,6 +6,7 @@ import android.net.Uri
 import android.util.Log
 import android.widget.MediaController
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.ViewDataBinding
 import com.bumptech.glide.Glide
 import com.example.instagramforobjective.base.BaseAdapter
@@ -36,13 +37,13 @@ class ReelAdapter(var context: Context, private var reelList: ArrayList<Reel>) :
                 mediaControls = MediaController(context)
                 mediaControls!!.setAnchorView(viewDataBinding.videoView)
             }
-            ProgressDialog.getInstance(context).show()
+            ProgressDialog.showDialog(context as AppCompatActivity)
             val videoUri = Uri.parse(reelList[position].reelUrl)
             viewDataBinding.videoView.setMediaController(mediaControls)
             viewDataBinding.videoView.setVideoURI(videoUri)
             viewDataBinding.videoView.setOnPreparedListener { mediaPlayer ->
                 Log.d("TAG", "itemViewDataBinding:video prepare ")
-                ProgressDialog.getInstance(context).hide()
+                ProgressDialog.hideDialog()
                 mediaPlayer.start()
             }
             viewDataBinding.userNameTxt.text = reelList[position].name
@@ -50,7 +51,7 @@ class ReelAdapter(var context: Context, private var reelList: ArrayList<Reel>) :
                 .into(viewDataBinding.reelProfileImage)
             viewDataBinding.reelCaptionTxt.text = reelList[position].caption
             viewDataBinding.videoView.setOnErrorListener { _, _, _ ->
-                ProgressDialog.getInstance(context).hide()
+                ProgressDialog.hideDialog()
                 Toast.makeText(context, "Error", Toast.LENGTH_LONG).show()
                 false
             }

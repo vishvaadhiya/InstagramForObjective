@@ -15,9 +15,9 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/userPostRV"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 app:layout_constraintTop_toTopOf="parent"
-
+                tools:listitem="@layout/user_post_list_item"
                 />
 
         </androidx.constraintlayout.widget.ConstraintLayout>

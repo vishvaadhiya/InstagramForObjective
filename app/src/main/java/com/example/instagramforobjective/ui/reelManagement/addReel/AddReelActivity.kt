@@ -27,7 +27,7 @@ class AddReelActivity : BaseActivity() {
     private val postViewModel: PostViewModel by viewModels()
 
     override fun initComponents() {
-        ProgressDialog.getInstance(this).show()
+        ProgressDialog.showDialog(this)
         videoUrl = intent.getStringExtra(Constants.VIDEO_URI)
         Glide.with(this)
             .load(videoUrl)
@@ -39,7 +39,7 @@ class AddReelActivity : BaseActivity() {
                     target: Target<Drawable>?,
                     isFirstResource: Boolean,
                 ): Boolean {
-                    ProgressDialog.getInstance(this@AddReelActivity).hide()
+                    ProgressDialog.hideDialog()
                     return false
                 }
 
@@ -50,7 +50,7 @@ class AddReelActivity : BaseActivity() {
                     dataSource: DataSource?,
                     isFirstResource: Boolean,
                 ): Boolean {
-                    ProgressDialog.getInstance(this@AddReelActivity).hide()
+                    ProgressDialog.hideDialog()
                     return false
                 }
             })
@@ -67,7 +67,7 @@ class AddReelActivity : BaseActivity() {
 
         binding.postReelBtn.setOnClickListener {
             val video = Uri.parse(videoUrl)
-            ProgressDialog.getInstance(this).show()
+            ProgressDialog.showDialog(this)
             uploadReels(this, video, Constants.REEL_FOLDER) { videoUrl ->
                 if (videoUrl != null) {
                     postYourReel(videoUrl.toString())
@@ -77,12 +77,12 @@ class AddReelActivity : BaseActivity() {
     }
 
     private fun postYourReel(videoUrl: String) {
-        ProgressDialog.getInstance(this).show()
+        ProgressDialog.showDialog(this)
         postViewModel.postYourReel(
             videoUrl,
             binding.captionReelET.editableText.toString(),
             onSuccess = {
-                ProgressDialog.getInstance(this).hide()
+                ProgressDialog.hideDialog()
                 goToMainActivity()
             },
             onError = {

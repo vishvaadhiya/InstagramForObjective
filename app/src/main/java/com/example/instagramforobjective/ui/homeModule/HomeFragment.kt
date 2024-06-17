@@ -2,6 +2,7 @@ package com.example.instagramforobjective.ui.homeModule
 
 import android.annotation.SuppressLint
 import android.util.Log
+import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -18,9 +19,6 @@ import com.google.firebase.auth.FirebaseAuth
 
 class HomeFragment : BaseFragment() {
 
-    private val progressDialog by lazy {
-        ProgressDialog.getInstance(requireContext())
-    }
     lateinit var binding: FragmentHomeBinding
     private lateinit var adapter: HomeAdapter
     private lateinit var storyAdapter: StoryAdapter
@@ -43,8 +41,7 @@ class HomeFragment : BaseFragment() {
 
     @SuppressLint("NotifyDataSetChanged")
     override fun initComponent() {
-        progressDialog.show()
-//        ProgressDialog.showDialog(requireActivity() as AppCompatActivity)
+        ProgressDialog.showDialog(requireActivity() as AppCompatActivity)
         val preferenceHelper = PreferenceHelper(requireContext())
         storyAdapter = view?.let { StoryAdapter(it, requireContext(), storyList) }!!
         binding.storyRecyclerView.layoutManager =
@@ -65,14 +62,12 @@ class HomeFragment : BaseFragment() {
 
         homeViewModel.fetchPostsAndStories()
         homeViewModel.postsLiveData.observe(viewLifecycleOwner) { postList ->
-            progressDialog.hide()
-//            ProgressDialog.hideDialog()
+            ProgressDialog.hideDialog()
             adapter.updatePosts(postList)
             loadLikeStates()
         }
         homeViewModel.storiesLiveData.observe(viewLifecycleOwner) { storyList ->
-            progressDialog.hide()
-//            ProgressDialog.hideDialog()
+            ProgressDialog.hideDialog()
             Log.d("TAG", "initComponent: ${storyList.size}")
             storyAdapter.updatePosts(storyList)
         }

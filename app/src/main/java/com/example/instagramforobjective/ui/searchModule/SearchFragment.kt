@@ -5,6 +5,7 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -24,9 +25,9 @@ import com.google.firebase.firestore.firestore
 
 class SearchFragment : BaseFragment(), SearchAdapter.OnFollowButtonClickListener {
 
-    private val progressDialog by lazy {
+    /*private val progressDialog by lazy {
         ProgressDialog.getInstance(requireContext())
-    }
+    }*/
     lateinit var binding: FragmentSearchBinding
     private lateinit var adapter: SearchAdapter
     private var userList = ArrayList<User>()
@@ -74,8 +75,8 @@ class SearchFragment : BaseFragment(), SearchAdapter.OnFollowButtonClickListener
     }
 
     private fun loadUserData() {
-//        ProgressDialog.showDialog(requireActivity() as AppCompatActivity)
-        progressDialog.show()
+        ProgressDialog.showDialog(requireActivity() as AppCompatActivity)
+//        progressDialog.show()
         binding.searchRv.layoutManager = LinearLayoutManager(requireContext())
         adapter = SearchAdapter(userList, this)
         binding.searchRv.adapter = adapter
@@ -96,7 +97,7 @@ class SearchFragment : BaseFragment(), SearchAdapter.OnFollowButtonClickListener
             Firebase.firestore.collection(FirebaseAuth.getInstance().currentUser!!.uid + Constants.FOLLOWERS)
         followCollection.whereEqualTo(Constants.EMAIL, user.email).get()
             .addOnSuccessListener { querySnapshot ->
-                progressDialog.hide()
+                ProgressDialog.hideDialog()
                 val isFollowed = !querySnapshot.isEmpty
                 user.isFollow = isFollowed
                 adapter.notifyDataSetChanged()
@@ -108,8 +109,8 @@ class SearchFragment : BaseFragment(), SearchAdapter.OnFollowButtonClickListener
 
     @SuppressLint("NotifyDataSetChanged")
     private fun loadPostData() {
-//        ProgressDialog.showDialog(requireActivity() as AppCompatActivity)
-        progressDialog.show()
+        ProgressDialog.showDialog(requireActivity() as AppCompatActivity)
+//        progressDialog.show()
         val postList = ArrayList<Post>()
         val adapter = UserPostRvAdapter(requireContext(), postList)
         binding.postRv.layoutManager =
@@ -117,8 +118,8 @@ class SearchFragment : BaseFragment(), SearchAdapter.OnFollowButtonClickListener
         binding.postRv.adapter = adapter
 
         searchViewModel.fetchPosts(onSuccess = {
-//            ProgressDialog.hideDialog()
-            progressDialog.hide()
+            ProgressDialog.hideDialog()
+//            progressDialog.hide()
             postList.addAll(it)
             adapter.notifyDataSetChanged()
         }, onError = {

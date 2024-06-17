@@ -5,6 +5,7 @@ import android.net.Uri
 import android.util.Log
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.ViewDataBinding
 import com.example.instagramforobjective.base.BaseActivity
 import com.example.instagramforobjective.ui.userManagement.login.LoginActivity
@@ -31,12 +32,12 @@ class SignUpActivity : BaseActivity() {
         mAuth = FirebaseAuth.getInstance()
         val pickImage = registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
             uri?.let {
-                ProgressDialog.getInstance(this).show()
+                ProgressDialog.showDialog(this as AppCompatActivity)
 //                ProgressDialog.showDialog(this)
                 uploadImage(this,uri, Constants.USER_PROFILE) {
                     selectedImageUri = uri
                     if (it != null) {
-                        ProgressDialog.getInstance(this).hide()
+                        ProgressDialog.hideDialog()
 //                        ProgressDialog.hideDialog()
                         user.image = it
                         binding.userProfileView.setImageURI(uri)

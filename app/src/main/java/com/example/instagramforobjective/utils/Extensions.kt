@@ -5,6 +5,7 @@ import android.content.Intent
 import android.net.Uri
 import android.util.Log
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.example.instagramforobjective.ui.homeModule.HomeActivity
 import com.example.instagramforobjective.utils.customViews.ProgressDialog
 import com.google.firebase.auth.FirebaseAuth
@@ -17,12 +18,12 @@ fun Context.showToast(message: String) {
 
 fun uploadImage(context: Context,uri: Uri?, folderName: String, callback: (String?) -> Unit) {
     uri?.let { imageUri ->
-        ProgressDialog.getInstance(context).show()
+        ProgressDialog.showDialog(context as AppCompatActivity)
         FirebaseStorage.getInstance().getReference(folderName).child(UUID.randomUUID().toString())
             .putFile(imageUri)
             .addOnSuccessListener { uploadTask ->
                 uploadTask.storage.downloadUrl.addOnSuccessListener { downloadUri ->
-                    ProgressDialog.getInstance(context).hide()
+                    ProgressDialog.hideDialog()
                     val imageUrl = downloadUri.toString()
                     callback(imageUrl)
                 }.addOnFailureListener { exception ->
@@ -54,11 +55,11 @@ fun Context.goToMainActivity() {
 
 fun uploadReels(context: Context,uri: Uri, folderName: String, callback: (String?) -> Unit) {
     var imageUri: String? = null
-    ProgressDialog.getInstance(context).show()
+    ProgressDialog.showDialog(context as AppCompatActivity)
     FirebaseStorage.getInstance().getReference(folderName).child(UUID.randomUUID().toString())
         .putFile(uri)
         .addOnSuccessListener {
-            ProgressDialog.getInstance(context).hide()
+            ProgressDialog.hideDialog()
             it.storage.downloadUrl.addOnSuccessListener {
                 imageUri = it.toString()
                 Log.d("TAG", "uploadReels: ${imageUri!!.length} ")

@@ -27,12 +27,12 @@ class ViewPostReelActivity : BaseActivity() {
         if (videoString != null) {
             val videoUri = Uri.parse(videoString)
             binding.videoView.setMediaController(mediaControls)
-            ProgressDialog.getInstance(this).show()
-//            ProgressDialog.showDialog(this)
+//            ProgressDialog.getInstance(this).show()
+            ProgressDialog.showDialog(this)
             Toast.makeText(this, "test", Toast.LENGTH_SHORT).show()
             binding.videoView.setVideoURI(videoUri)
-            ProgressDialog.getInstance(this).hide()
-//            ProgressDialog.hideDialog()
+//            ProgressDialog.getInstance(this).hide()
+            ProgressDialog.hideDialog()
             binding.videoView.start()
         } else {
             Glide.with(this)

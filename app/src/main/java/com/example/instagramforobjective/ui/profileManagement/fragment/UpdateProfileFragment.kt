@@ -3,6 +3,7 @@ package com.example.instagramforobjective.ui.profileManagement.fragment
 import android.content.Intent
 import android.util.Log
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.viewModels
 import com.bumptech.glide.Glide
@@ -66,12 +67,12 @@ class UpdateProfileFragment : BaseFragment() {
     private fun setUpClickListeners() {
         val launcher = registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
             uri?.let {
-                ProgressDialog.getInstance(requireContext()).show()
+                ProgressDialog.showDialog(requireContext() as AppCompatActivity)
 //                ProgressDialog.showDialog(activity as AppCompatActivity)
                 uploadImage(requireContext(),uri, Constants.USER_PROFILE) { imageUrl ->
                     imageUrl?.let {
                         user.image = it
-                        ProgressDialog.getInstance(requireContext()).hide()
+                        ProgressDialog.hideDialog()
 //                        ProgressDialog.hideDialog()
                         binding.userProfileView.setImageURI(uri)
                     }

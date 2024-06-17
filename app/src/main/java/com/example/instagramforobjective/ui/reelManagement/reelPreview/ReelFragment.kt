@@ -1,6 +1,7 @@
 package com.example.instagramforobjective.ui.reelManagement.reelPreview
 
 import android.util.Log
+import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.viewModels
 import androidx.viewpager2.widget.ViewPager2.OnPageChangeCallback
@@ -41,7 +42,7 @@ class ReelFragment : BaseFragment() {
             }
             override fun onPageSelected(position: Int) {
                 super.onPageSelected(position)
-                ProgressDialog.getInstance(requireContext()).show()
+                ProgressDialog.showDialog(requireContext() as AppCompatActivity)
                 Log.e(javaClass.simpleName, "onPageSelected: $position")
             }
             override fun onPageScrollStateChanged(state: Int) {

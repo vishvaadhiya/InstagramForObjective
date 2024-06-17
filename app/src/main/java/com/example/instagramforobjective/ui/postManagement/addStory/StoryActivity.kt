@@ -29,10 +29,9 @@ class StoryActivity : BaseActivity() {
 
     override fun initComponents() {
         Log.d(javaClass.simpleName, "initComponents: StoryActivity ")
-        ProgressDialog.getInstance(this).show()
+        ProgressDialog.showDialog(this)
         imageUrl = intent.getStringExtra(Constants.IMAGE_URI)
         if (!imageUrl.isNullOrEmpty()) {
-            ProgressDialog.getInstance(this).hide()
             Glide.with(this)
                 .load(imageUrl)
                 .listener(object : RequestListener<Drawable> {
@@ -42,7 +41,7 @@ class StoryActivity : BaseActivity() {
                         target: Target<Drawable>?,
                         isFirstResource: Boolean,
                     ): Boolean {
-                        ProgressDialog.getInstance(this@StoryActivity).hide()
+                        ProgressDialog.hideDialog()
                         return false
                     }
 
@@ -53,7 +52,7 @@ class StoryActivity : BaseActivity() {
                         dataSource: DataSource?,
                         isFirstResource: Boolean,
                     ): Boolean {
-                        ProgressDialog.getInstance(this@StoryActivity).hide()
+                        ProgressDialog.hideDialog()
                         return false
                     }
                 }).into(binding.storyIv)
@@ -65,6 +64,7 @@ class StoryActivity : BaseActivity() {
             goToMainActivity()
         }
         binding.postStoryBtn.setOnClickListener {
+            ProgressDialog.showDialog(this)
             val image = Uri.parse(imageUrl)
             Log.d("StoryActivity", "Image URL: $imageUrl")
             if (image != null) {
@@ -97,6 +97,7 @@ class StoryActivity : BaseActivity() {
         postViewModel.postYourStoryImage(
             image,
             onSuccess = {
+                ProgressDialog.hideDialog()
                 goToMainActivity()
             },
             onError = { exception ->
