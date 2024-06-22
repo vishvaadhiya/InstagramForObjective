@@ -6,7 +6,7 @@ import android.net.Uri
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.example.instagramforobjective.ui.homeModule.HomeActivity
+import com.example.instagramforobjective.ui.home.HomeActivity
 import com.example.instagramforobjective.utils.customViews.ProgressDialog
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.storage.FirebaseStorage

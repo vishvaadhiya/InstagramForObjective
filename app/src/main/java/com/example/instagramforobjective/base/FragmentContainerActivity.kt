@@ -3,8 +3,8 @@ package com.example.instagramforobjective.base
 import android.util.Log
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
-import com.example.instagramforobjective.ui.profileManagement.fragment.UpdateProfileFragment
-import com.example.instagramforobjective.ui.settingsModule.SettingFragment
+import com.example.instagramforobjective.ui.profile.fragment.UpdateProfileFragment
+import com.example.instagramforobjective.ui.settings.SettingFragment
 import com.example.instagramforobjective.R
 import com.example.instagramforobjective.databinding.ActivityFragmentContainerBinding
 

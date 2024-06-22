@@ -34,11 +34,11 @@
             android:name=".ui.shared.AddPixActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.profileManagement.shared.ViewPostReelActivity"
+            android:name=".ui.profile.shared.ViewPostReelActivity"
             android:exported="false"
             android:theme="@style/Base.Theme.InstagramForObjective" />
         <activity
-            android:name=".ui.startUpModule.SplashActivity"
+            android:name=".ui.splash.SplashActivity"
             android:exported="true"
             android:screenOrientation="portrait"
             android:theme="@style/SplashTheme">
@@ -49,15 +49,15 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.postManagement.addStory.StoryActivity"
+            android:name=".ui.post.addStory.StoryActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.reelManagement.addReel.AddReelActivity"
+            android:name=".ui.reel.addReel.AddReelActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.postManagement.addPost.PostActivity"
+            android:name=".ui.post.addPost.PostActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
@@ -65,20 +65,20 @@
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.startUpModule.OnBoardingActivity"
+            android:name=".ui.splash.OnBoardingActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.userManagement.signup.SignUpActivity"
+            android:name=".ui.user.signup.SignUpActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.userManagement.login.LoginActivity"
+            android:name=".ui.user.login.LoginActivity"
             android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/Base.Theme.InstagramForObjective" />
         <activity
-            android:name=".ui.homeModule.HomeActivity"
+            android:name=".ui.home.HomeActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
 
