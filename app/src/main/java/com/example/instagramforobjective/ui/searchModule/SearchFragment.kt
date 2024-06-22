@@ -25,9 +25,6 @@ import com.google.firebase.firestore.firestore
 
 class SearchFragment : BaseFragment(), SearchAdapter.OnFollowButtonClickListener {
 
-    /*private val progressDialog by lazy {
-        ProgressDialog.getInstance(requireContext())
-    }*/
     lateinit var binding: FragmentSearchBinding
     private lateinit var adapter: SearchAdapter
     private var userList = ArrayList<User>()
@@ -48,7 +45,6 @@ class SearchFragment : BaseFragment(), SearchAdapter.OnFollowButtonClickListener
     override fun initComponent() {
         binding.postRv.visibility = View.VISIBLE
         binding.searchRv.visibility = View.GONE
-//        adapter = SearchAdapter(requireContext(), userList, this)
         loadPostData()
         binding.searchView.searchField.onFocusChangeListener =
             View.OnFocusChangeListener { _, _ ->
@@ -76,7 +72,6 @@ class SearchFragment : BaseFragment(), SearchAdapter.OnFollowButtonClickListener
 
     private fun loadUserData() {
         ProgressDialog.showDialog(requireActivity() as AppCompatActivity)
-//        progressDialog.show()
         binding.searchRv.layoutManager = LinearLayoutManager(requireContext())
         adapter = SearchAdapter(userList, this)
         binding.searchRv.adapter = adapter
@@ -110,7 +105,6 @@ class SearchFragment : BaseFragment(), SearchAdapter.OnFollowButtonClickListener
     @SuppressLint("NotifyDataSetChanged")
     private fun loadPostData() {
         ProgressDialog.showDialog(requireActivity() as AppCompatActivity)
-//        progressDialog.show()
         val postList = ArrayList<Post>()
         val adapter = UserPostRvAdapter(requireContext(), postList)
         binding.postRv.layoutManager =
@@ -119,7 +113,6 @@ class SearchFragment : BaseFragment(), SearchAdapter.OnFollowButtonClickListener
 
         searchViewModel.fetchPosts(onSuccess = {
             ProgressDialog.hideDialog()
-//            progressDialog.hide()
             postList.addAll(it)
             adapter.notifyDataSetChanged()
         }, onError = {
@@ -152,6 +145,7 @@ class SearchFragment : BaseFragment(), SearchAdapter.OnFollowButtonClickListener
 
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     override fun onFollowButtonClicked(user: User, isFollowing: Boolean) {
         val userIndex = userList.indexOf(user)
         if (userIndex != -1) {
@@ -165,13 +159,9 @@ class SearchFragment : BaseFragment(), SearchAdapter.OnFollowButtonClickListener
                             followCollection.document().set(user)
                                 .addOnSuccessListener {
                                     currentUser.isFollow = true
-                                    userList.firstOrNull {
-                                        it.uid == currentUser.uid
-                                    }?.apply {
-                                        isFollow = true
-                                    }
-                                    adapter.notifyItemChanged(userIndex)
+                                    userList.firstOrNull { it.uid == currentUser.uid }?.isFollow = true
                                     requireContext().showToast("Followed ${user.name}")
+                                    adapter.notifyDataSetChanged()
                                 }
                                 .addOnFailureListener { exception ->
                                     Log.e("TAG", "Error adding follower document: $exception")
@@ -191,19 +181,15 @@ class SearchFragment : BaseFragment(), SearchAdapter.OnFollowButtonClickListener
                             followCollection.document(documentId).delete()
                                 .addOnSuccessListener {
                                     currentUser.isFollow = false
-                                    userList.firstOrNull {
-                                        it.uid == currentUser.uid
-                                    }?.apply {
-                                        isFollow = false
-                                    }
-                                    adapter.notifyItemChanged(userIndex)
+                                    userList.firstOrNull { it.uid == currentUser.uid }?.isFollow = false
                                     requireContext().showToast("Unfollowed ${user.name}")
+                                    adapter.notifyDataSetChanged()
                                 }
                                 .addOnFailureListener { exception ->
                                     Log.e("TAG", "Error : $exception")
                                 }
                         } else {
-                            requireContext().showToast("test")
+                            requireContext().showToast("user not followed")
                         }
                     }
                     .addOnFailureListener { exception ->

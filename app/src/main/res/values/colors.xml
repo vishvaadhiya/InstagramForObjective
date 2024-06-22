@@ -2,7 +2,11 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="sky">#3875E8</color>
+    <color name="sky">#3F729B</color>
+    <color name="dsky">#B224A8ED</color>
+    <color name="blue">#3875E8</color>
+
+
     <color name="transparent">#00000000</color>
     <color name="red">#FF0000</color>
 </resources>

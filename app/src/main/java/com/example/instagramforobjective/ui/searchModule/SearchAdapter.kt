@@ -48,7 +48,7 @@ class SearchAdapter(
     override fun getItemCount(): Int = userList.size
 
     fun updateData(newList: List<User>) {
-        userList = newList
+        this.userList = newList
         notifyDataSetChanged()
     }
 

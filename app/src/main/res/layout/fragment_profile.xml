@@ -9,7 +9,8 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:background="@color/white">
 
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar"
@@ -18,13 +19,21 @@
                 android:background="@color/sky"
                 app:layout_constraintTop_toTopOf="parent">
 
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/backPress"
+                    android:layout_width="@dimen/_30sdp"
+                    android:layout_height="@dimen/_30sdp"
+                    android:src="@drawable/ic_back_arrow_icon"
+                    app:layout_constraintTop_toTopOf="parent" />
+
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/customTV"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="test"
+                    android:layout_marginStart="@dimen/_20sdp"
+                    android:text="@string/profileToolbar"
                     android:textColor="@color/white"
-                    android:textSize="@dimen/_18ssp"
+                    android:textSize="@dimen/_14ssp"
                     android:textStyle="bold" />
 
 
@@ -60,25 +69,29 @@
                 android:orientation="vertical"
                 app:layout_constraintGuide_percent="0.5" />
 
-            <com.google.android.material.button.MaterialButton
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/editProfile"
+                style="@style/capsuleButton"
                 android:layout_width="@dimen/_130sdp"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/_5sdp"
                 android:backgroundTint="@color/sky"
+                android:background="@drawable/selector_transparent_white_stroke_button"
                 android:text="@string/edit_profile"
-                android:textColor="@color/black"
+                android:textColor="@color/white"
                 app:layout_constraintEnd_toStartOf="@id/centerGuideline"
                 app:layout_constraintTop_toBottomOf="@id/usernameTV" />
 
-            <com.google.android.material.button.MaterialButton
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/shareProfile"
+                style="@style/capsuleButton"
                 android:layout_width="@dimen/_130sdp"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/_5sdp"
-                android:backgroundTint="@color/sky"
+                android:background="@drawable/selector_transparent_white_stroke_button"
                 android:text="@string/share_profile"
-                android:textColor="@color/black"
+                android:backgroundTint="@color/sky"
+                android:textColor="@color/white"
                 app:layout_constraintStart_toEndOf="@id/centerGuideline"
                 app:layout_constraintTop_toBottomOf="@id/usernameTV" />
 

@@ -33,14 +33,16 @@
                 android:textColor="@color/black"
                 app:layout_constraintLeft_toRightOf="@id/userProfileIv" />
 
-            <com.google.android.material.button.MaterialButton
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/followButton"
                 android:layout_width="@dimen/_90sdp"
                 android:layout_height="@dimen/_40sdp"
                 android:layout_marginTop="@dimen/_10sdp"
                 android:backgroundTint="@color/sky"
+                android:background="@drawable/selector_transparent_white_stroke_button"
                 android:text="@string/follow"
                 android:textSize="@dimen/_10ssp"
+                android:textColor="@color/white"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 

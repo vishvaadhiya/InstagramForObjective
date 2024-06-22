@@ -32,11 +32,11 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
     kotlinOptions {
-        jvmTarget = "11"
+        jvmTarget = "17"
     }
     buildFeatures {
         dataBinding = true
@@ -50,8 +50,8 @@ dependencies {
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("com.google.android.material:material:1.5.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
-//    implementation(project(mapOf("path" to ":pix")))
-    implementation  ("io.ak1.pix:piximagepicker:1.6.3")
+    implementation(project(mapOf("path" to ":pix")))
+//    implementation  ("io.ak1.pix:piximagepicker:1.6.3")
 //    implementation("androidx.camera:camera-core:1.3.3")
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")

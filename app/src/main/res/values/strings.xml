@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">InstagramForObjective</string>
+    <string name="app_name">Instagram</string>
     <string name="sign_up">Sign Up</string>
     <string name="please_enter_email">Please enter email</string>
     <string name="please_enter_username">Please enter username</string>
@@ -57,4 +57,8 @@
     <string name="add_picture">Add Picture</string>
     <string name="your_story">Your Story</string>
     <string name="already_saved_this_post">Already Saved this Post</string>
+    <string name="profileToolbar">Profile</string>
+    <string name="new_post_txt">New Post</string>
+    <string name="new_story_txt">New Story</string>
+    <string name="new_reel_txt">New Reel</string>
 </resources>

@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.net.toFile
 import androidx.core.view.ViewCompat
@@ -127,7 +128,9 @@ class PixFragment(private val resultCallback: ((PixEventCallback.Results) -> Uni
 
     private fun FragmentActivity.setup() {
         setUpMargins(binding)
+        Log.e("TAG", "### setup: before permissions ", )
         permissions()
+        Log.e("TAG", "### setup: after permissions ", )
         reSetup(this)
         //in case of resetting the options in an live fragment
         setFragmentResultListener(ARG_PARAM_PIX_KEY) { _, bundle ->
@@ -147,7 +150,9 @@ class PixFragment(private val resultCallback: ((PixEventCallback.Results) -> Uni
     }
 
     private fun permissions() {
+        Log.e("TAG", "### setup: in permissions ", )
         binding.permissionsLayout.permissionButton.setOnClickListener {
+            Toast.makeText(requireActivity(), "this clicked", Toast.LENGTH_SHORT).show()
             permReqLauncher.permissionsFilter(requireActivity(), options) {
                 initialise(requireActivity())
             }
@@ -155,7 +160,9 @@ class PixFragment(private val resultCallback: ((PixEventCallback.Results) -> Uni
     }
 
     private fun reSetup(context: FragmentActivity) {
+        Log.e("TAG", "### setup: in resetup :::  ", )
         permReqLauncher.permissionsFilter(context, options) {
+            Log.e("TAG", "### setup: in launcher :::  ", )
             initialise(context)
         }
     }

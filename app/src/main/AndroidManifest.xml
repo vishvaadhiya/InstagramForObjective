@@ -25,12 +25,11 @@
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
-        android:icon="@drawable/ic_instagram"
+        android:icon="@drawable/instaa"
         android:label="@string/app_name"
-        android:roundIcon="@drawable/ic_instagram"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme"
-        tools:targetApi="s">
+        android:theme="@style/SplashTheme"
+        tools:targetApi="TIRAMISU">
         <activity
             android:name=".ui.shared.AddPixActivity"
             android:exported="false" />
@@ -68,7 +67,7 @@
         <activity
             android:name=".ui.startUpModule.OnBoardingActivity"
             android:exported="false"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ui.userManagement.signup.SignUpActivity"
             android:exported="false"

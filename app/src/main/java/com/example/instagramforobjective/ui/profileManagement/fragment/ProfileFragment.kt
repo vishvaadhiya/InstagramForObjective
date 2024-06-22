@@ -53,7 +53,6 @@ class ProfileFragment : BaseFragment() {
 
 
         binding.shareProfile.setOnClickListener {
-            Toast.makeText(context, "test", Toast.LENGTH_SHORT).show()
             val sharingIntent = Intent(Intent.ACTION_SEND)
             sharingIntent.type = "text/plain"
             val shareBody =

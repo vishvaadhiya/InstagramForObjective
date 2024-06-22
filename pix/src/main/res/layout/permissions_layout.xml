@@ -2,7 +2,7 @@
 <merge xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <com.google.android.material.card.MaterialCardView
+    <androidx.cardview.widget.CardView
         android:id="@+id/permissions_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -19,19 +19,17 @@
             android:orientation="vertical">
 
             <androidx.appcompat.widget.AppCompatTextView
-                style="@style/TextAppearance.MaterialComponents.Headline6"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Permissions Denied" />
 
             <androidx.appcompat.widget.AppCompatTextView
-                style="@style/TextAppearance.MaterialComponents.Body1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:text="Approve permissions to utilise pix image picker" />
+                android:text="abcde" />
 
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/permissionButton"
                 style="?attr/materialButtonOutlinedStyle"
                 android:layout_width="wrap_content"
@@ -39,8 +37,8 @@
                 android:layout_marginTop="10dp"
                 android:paddingLeft="24dp"
                 android:paddingRight="24dp"
-                android:text="Ask Again" />
+                android:text="not permissionn" />
         </androidx.appcompat.widget.LinearLayoutCompat>
 
-    </com.google.android.material.card.MaterialCardView>
+    </androidx.cardview.widget.CardView>
 </merge>
