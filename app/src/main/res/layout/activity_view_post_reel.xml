@@ -7,7 +7,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/white"
-        tools:context=".ui.profileManagement.shared.ViewPostReelActivity">
+        tools:context=".ui.profile.shared.ViewPostReelActivity">
 
         <VideoView
             android:id="@+id/videoView"

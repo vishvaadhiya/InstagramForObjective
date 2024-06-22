@@ -20,7 +20,7 @@
             android:layout_width="match_parent"
             android:orientation="vertical"
             android:backgroundTint="@color/white"
-            tools:context=".ui.homeModule.ProfileFragment">
+            tools:context=".ui.home.ProfileFragment">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/bioCl"

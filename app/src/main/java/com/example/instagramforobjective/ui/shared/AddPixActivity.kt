@@ -19,9 +19,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
-import com.example.instagramforobjective.ui.postManagement.addPost.PostActivity
-import com.example.instagramforobjective.ui.reelManagement.addReel.AddReelActivity
-import com.example.instagramforobjective.ui.postManagement.addStory.StoryActivity
+import com.example.instagramforobjective.ui.post.addPost.PostActivity
+import com.example.instagramforobjective.ui.reel.addReel.AddReelActivity
+import com.example.instagramforobjective.ui.post.addStory.StoryActivity
 import com.example.instagramforobjective.utils.Constants
 import com.example.instagramforobjective.utils.customViews.fragmentBody
 import com.example.instagramforobjective.utils.showToast
