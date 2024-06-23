@@ -1,6 +1,7 @@
 package com.example.instagramforobjective.ui.reel.reelPreview
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Context
 import android.net.Uri
 import android.os.Handler
@@ -33,9 +34,6 @@ class ReelAdapter(var context: Context, private var reelList: ArrayList<Reel>) :
     override fun itemViewDataBinding(viewDataBinding: ViewDataBinding, position: Int) {
 
         if (viewDataBinding is ReelListLayoutBinding) {
-
-
-            ProgressDialog.showDialog(context as AppCompatActivity)
             val videoUri = Uri.parse(reelList[position].reelUrl)
             viewDataBinding.videoView.setVideoURI(videoUri)
             viewDataBinding.seekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {

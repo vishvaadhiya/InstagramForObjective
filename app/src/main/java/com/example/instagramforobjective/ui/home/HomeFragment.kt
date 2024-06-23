@@ -41,7 +41,7 @@ class HomeFragment : BaseFragment() {
 
     @SuppressLint("NotifyDataSetChanged")
     override fun initComponent() {
-        ProgressDialog.showDialog(requireActivity() as AppCompatActivity)
+        ProgressDialog.showDialog(requireActivity())
         val preferenceHelper = PreferenceHelper(requireContext())
         storyAdapter = view?.let { StoryAdapter(it, requireContext(), storyList) }!!
         binding.storyRecyclerView.layoutManager =

@@ -9,8 +9,9 @@ import com.example.instagramforobjective.utils.getCurrentUserId
 import com.google.firebase.Firebase
 import com.google.firebase.firestore.firestore
 import com.google.firebase.firestore.toObject
+import javax.inject.Inject
 
-class ReelRepository :ReelInterface{
+class ReelRepository @Inject constructor() :ReelInterface{
 
     private val _userReelLiveData = MutableLiveData<List<Reel>>()
     val reelLiveData: LiveData<List<Reel>> = _userReelLiveData

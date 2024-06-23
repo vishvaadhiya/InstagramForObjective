@@ -3,8 +3,11 @@ package com.example.instagramforobjective.ui.search
 import androidx.lifecycle.ViewModel
 import com.example.instagramforobjective.data.models.Post
 import com.example.instagramforobjective.data.models.User
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class SearchViewModel(private val repository: SearchRepository) : ViewModel() {
+@HiltViewModel
+class SearchViewModel @Inject constructor(private var repository: SearchRepository) : ViewModel() {
 
     fun fetchPosts(
         onSuccess: (List<Post>) -> Unit,
@@ -18,5 +21,9 @@ class SearchViewModel(private val repository: SearchRepository) : ViewModel() {
         onError: (String) -> Unit
     ) {
         repository.fetchUsers(onSuccess, onError)
+    }
+
+    fun setRepository(repository: SearchRepository) {
+        this.repository = repository
     }
 }

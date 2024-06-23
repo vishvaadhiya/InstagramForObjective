@@ -43,7 +43,7 @@ class ProfileFragment : BaseFragment() {
         }
 
     override fun initComponent() {
-        ProgressDialog.showDialog(requireContext() as AppCompatActivity)
+        ProgressDialog.showDialog(requireActivity())
 //        ProgressDialog.showDialog(requireContext() as AppCompatActivity)
         (requireActivity() as AppCompatActivity).setSupportActionBar(binding.toolbar)
         (requireActivity() as AppCompatActivity).supportActionBar?.setDisplayShowTitleEnabled(false)
@@ -68,7 +68,7 @@ class ProfileFragment : BaseFragment() {
         profileViewPagerAdapter = ProfileViewPagerAdapter(childFragmentManager)
         profileViewPagerAdapter.addFragments(UserPostFragment(), getString(R.string.post))
         profileViewPagerAdapter.addFragments(UserReelFragment(), getString(R.string.reel))
-        profileViewPagerAdapter.addFragments(UserSavedFragment(), getString(R.string.saved))
+//        profileViewPagerAdapter.addFragments(UserSavedFragment(), getString(R.string.saved))
         binding.viewPager.adapter = profileViewPagerAdapter
         binding.tabLayout.setupWithViewPager(binding.viewPager)
         ProgressDialog.hideDialog()

@@ -22,16 +22,16 @@ import com.example.instagramforobjective.databinding.FragmentSearchBinding
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.firestore
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class SearchFragment : BaseFragment(), SearchAdapter.OnFollowButtonClickListener {
 
     lateinit var binding: FragmentSearchBinding
     private lateinit var adapter: SearchAdapter
     private var userList = ArrayList<User>()
     private val repository: SearchRepository by lazy { SearchRepository() }
-    private val searchViewModel: SearchViewModel by viewModels {
-        SearchViewModelFactory(repository)
-    }
+    private val searchViewModel: SearchViewModel by viewModels()
 
     override fun defineLayout(): Int {
         return R.layout.fragment_search
@@ -43,6 +43,7 @@ class SearchFragment : BaseFragment(), SearchAdapter.OnFollowButtonClickListener
     }
 
     override fun initComponent() {
+        searchViewModel.setRepository(repository)
         binding.postRv.visibility = View.VISIBLE
         binding.searchRv.visibility = View.GONE
         loadPostData()
@@ -71,7 +72,7 @@ class SearchFragment : BaseFragment(), SearchAdapter.OnFollowButtonClickListener
     }
 
     private fun loadUserData() {
-        ProgressDialog.showDialog(requireActivity() as AppCompatActivity)
+        ProgressDialog.showDialog(requireActivity())
         binding.searchRv.layoutManager = LinearLayoutManager(requireContext())
         adapter = SearchAdapter(userList, this)
         binding.searchRv.adapter = adapter
@@ -104,7 +105,7 @@ class SearchFragment : BaseFragment(), SearchAdapter.OnFollowButtonClickListener
 
     @SuppressLint("NotifyDataSetChanged")
     private fun loadPostData() {
-        ProgressDialog.showDialog(requireActivity() as AppCompatActivity)
+        ProgressDialog.showDialog(requireActivity())
         val postList = ArrayList<Post>()
         val adapter = UserPostRvAdapter(requireContext(), postList)
         binding.postRv.layoutManager =

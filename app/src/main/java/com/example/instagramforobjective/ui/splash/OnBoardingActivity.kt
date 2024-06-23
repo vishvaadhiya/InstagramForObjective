@@ -79,7 +79,7 @@ class OnBoardingActivity : BaseActivity() {
         }
         if (currentPosition == imgList.size - 1) {
             binding.nextButton.text = getString(R.string.finish)
-            binding.nextButton.icon = null
+            //binding.nextButton.icon = null
         }
     }
 }

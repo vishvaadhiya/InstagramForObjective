@@ -32,7 +32,7 @@ class SignUpActivity : BaseActivity() {
         mAuth = FirebaseAuth.getInstance()
         val pickImage = registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
             uri?.let {
-                ProgressDialog.showDialog(this as AppCompatActivity)
+                ProgressDialog.showDialog(this)
 //                ProgressDialog.showDialog(this)
                 uploadImage(this,uri, Constants.USER_PROFILE) {
                     selectedImageUri = uri

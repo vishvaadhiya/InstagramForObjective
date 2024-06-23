@@ -67,7 +67,7 @@ class UpdateProfileFragment : BaseFragment() {
     private fun setUpClickListeners() {
         val launcher = registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
             uri?.let {
-                ProgressDialog.showDialog(requireContext() as AppCompatActivity)
+                ProgressDialog.showDialog(requireActivity())
 //                ProgressDialog.showDialog(activity as AppCompatActivity)
                 uploadImage(requireContext(),uri, Constants.USER_PROFILE) { imageUrl ->
                     imageUrl?.let {

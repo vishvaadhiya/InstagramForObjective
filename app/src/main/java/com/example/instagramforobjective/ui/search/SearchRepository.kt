@@ -6,8 +6,9 @@ import com.example.instagramforobjective.utils.Constants
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.toObject
+import javax.inject.Inject
 
-class SearchRepository : SearchInterface {
+class SearchRepository  @Inject constructor() : SearchInterface {
 
     private val firestore = FirebaseFirestore.getInstance()
     private val auth = FirebaseAuth.getInstance()

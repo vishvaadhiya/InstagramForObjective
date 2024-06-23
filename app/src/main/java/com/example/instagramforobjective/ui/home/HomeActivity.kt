@@ -11,7 +11,9 @@ import com.example.instagramforobjective.ui.search.SearchFragment
 import com.example.instagramforobjective.R
 import com.example.instagramforobjective.databinding.ActivityMainBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class HomeActivity : BaseActivity() {
 
     lateinit var binding: ActivityMainBinding

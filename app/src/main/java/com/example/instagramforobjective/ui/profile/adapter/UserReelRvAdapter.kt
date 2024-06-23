@@ -33,6 +33,7 @@ class UserReelRvAdapter(var context: Context, var reelList: ArrayList<Reel>) : B
             viewDataBinding.myPostImage.setOnClickListener {
                 val intent = Intent(context, ViewPostReelActivity::class.java).apply {
                     putExtra("videoUrl", reelList[position].reelUrl)
+                    putExtra("captionVideo", reelList[position].caption)
                 }
                 context.startActivity(intent)
             }

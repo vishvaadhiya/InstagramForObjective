@@ -1,5 +1,6 @@
 package com.example.instagramforobjective.utils
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
@@ -18,7 +19,7 @@ fun Context.showToast(message: String) {
 
 fun uploadImage(context: Context,uri: Uri?, folderName: String, callback: (String?) -> Unit) {
     uri?.let { imageUri ->
-        ProgressDialog.showDialog(context as AppCompatActivity)
+        ProgressDialog.showDialog(context as Activity)
         FirebaseStorage.getInstance().getReference(folderName).child(UUID.randomUUID().toString())
             .putFile(imageUri)
             .addOnSuccessListener { uploadTask ->
@@ -55,7 +56,7 @@ fun Context.goToMainActivity() {
 
 fun uploadReels(context: Context,uri: Uri, folderName: String, callback: (String?) -> Unit) {
     var imageUri: String? = null
-    ProgressDialog.showDialog(context as AppCompatActivity)
+    ProgressDialog.showDialog(context as Activity)
     FirebaseStorage.getInstance().getReference(folderName).child(UUID.randomUUID().toString())
         .putFile(uri)
         .addOnSuccessListener {

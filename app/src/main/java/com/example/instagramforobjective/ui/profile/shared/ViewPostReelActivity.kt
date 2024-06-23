@@ -18,6 +18,7 @@ class ViewPostReelActivity : BaseActivity() {
     override fun initComponents() {
         val imageUrl = intent.getStringExtra("imageUrl")
         val text = intent.getStringExtra("caption")
+        val textVideo = intent.getStringExtra("captionVideo")
         val videoString = intent.getStringExtra("videoUrl")
         if (mediaControls == null) {
             mediaControls = MediaController(this)
@@ -25,24 +26,24 @@ class ViewPostReelActivity : BaseActivity() {
         }
 
         if (videoString != null) {
+            ProgressDialog.showDialog(this)
             val videoUri = Uri.parse(videoString)
             binding.videoView.setMediaController(mediaControls)
-//            ProgressDialog.getInstance(this).show()
-            ProgressDialog.showDialog(this)
             Toast.makeText(this, "test", Toast.LENGTH_SHORT).show()
             binding.videoView.setVideoURI(videoUri)
-//            ProgressDialog.getInstance(this).hide()
             ProgressDialog.hideDialog()
             binding.videoView.start()
+            binding.userNameTxt.text = textVideo
         } else {
             Glide.with(this)
                 .load(imageUrl)
                 .placeholder(R.drawable.user)
                 .error(R.drawable.user)
                 .into(binding.image)
+            binding.userNameTxt.text = text
         }
 
-        binding.userNameTxt.text = text
+
     }
 
     override fun defineLayout(): Int {
