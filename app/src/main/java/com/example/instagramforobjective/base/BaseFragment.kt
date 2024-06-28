@@ -8,6 +8,9 @@ import androidx.annotation.LayoutRes
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
+import com.example.instagramforobjective.ui.home.CameraViewFragment
+import com.example.instagramforobjective.ui.home.HomeActivity
+import io.ak1.pix.helpers.show
 
 abstract class BaseFragment : Fragment() {
 
@@ -35,13 +38,17 @@ abstract class BaseFragment : Fragment() {
         initComponent()
     }
 
+    override fun onResume() {
+        super.onResume()
+        (requireActivity() as HomeActivity).binding.bottomNavigationView.show()
+    }
 
     protected fun replaceFragment(container: Int, fragment: Fragment) {
         (requireActivity() as BaseActivity).replaceFragment(container, fragment)
     }
 
-    protected fun addFragment(container: Int,targetFragment: Fragment, sourceFragment: Fragment) {
-        (requireActivity() as BaseActivity).addFragment(container, targetFragment,sourceFragment)
+    protected fun addFragment(container: Int, targetFragment: Fragment, sourceFragment: Fragment) {
+        (requireActivity() as BaseActivity).addFragment(container, targetFragment, sourceFragment)
     }
 
 

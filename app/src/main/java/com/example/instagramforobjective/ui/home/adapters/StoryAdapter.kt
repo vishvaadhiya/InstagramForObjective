@@ -120,12 +120,29 @@ class StoryAdapter(
                 return
             }
 
-            binding.storyLayout.setOnClickListener {
+          /*  val userStories = storyList.filter { it.uid == currentUser.uid }
+            if (userStories.isEmpty()) {
+                binding.storyLayout.setOnClickListener {
+                    val intent = Intent(context, AddPixActivity::class.java).apply {
+                        putExtra(Constants.SOURCE, Constants.STORY)
+                    }
+                    context.startActivity(intent)
+                }
+            } else {
+                val story = userStories.first()
+                Glide.with(context)
+                    .load(story.storyUrl)
+                    .placeholder(R.drawable.user)
+                    .into(binding.userImage)
+                binding.addPicIv.visibility = View.GONE
+            }*/
+
+            /*binding.storyLayout.setOnClickListener {
                 val intent = Intent(context, AddPixActivity::class.java).apply {
                     putExtra(Constants.SOURCE, Constants.STORY)
                 }
                 context.startActivity(intent)
-            }
+            }*/
         }
     }
 
@@ -203,6 +220,7 @@ class StoryAdapter(
                 ViewGroup.LayoutParams.WRAP_CONTENT
             ).apply {
                 setMargins(50, 70, 0, 0)
+                setPadding(0,10,10,10)
             }
         }
         Glide.with(rootView.context)

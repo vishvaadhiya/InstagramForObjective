@@ -6,8 +6,8 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/storyLayout"
         android:layout_width="wrap_content"
-        android:layout_margin="@dimen/_10sdp"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/_10sdp">
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/userImage"
@@ -22,12 +22,11 @@
             android:id="@+id/addPicIv"
             android:layout_width="@dimen/_20sdp"
             android:layout_height="@dimen/_20sdp"
-            android:src="@drawable/ic_plus_story"
+            android:src="@drawable/ic_story"
             app:civ_border_width="@dimen/_2sdp"
-            app:layout_constraintTop_toTopOf="@id/userImage"
+            app:layout_constraintBottom_toBottomOf="@id/userImage"
             app:layout_constraintEnd_toEndOf="@id/userImage"
-            android:layout_marginTop="@dimen/_50sdp"
-            android:layout_marginEnd="@dimen/_8sdp"
+            android:layout_marginEnd="@dimen/_2sdp"
             />
 
         <androidx.appcompat.widget.AppCompatTextView

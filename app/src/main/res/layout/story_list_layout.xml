@@ -9,8 +9,8 @@
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/profilePic"
-            android:layout_width="@dimen/_70sdp"
-            android:layout_height="@dimen/_70sdp"
+            android:layout_width="@dimen/_60sdp"
+            android:layout_height="@dimen/_60sdp"
             android:src="@drawable/user"
             app:civ_border_color="@color/sky"
             app:civ_border_width="@dimen/_3sdp"

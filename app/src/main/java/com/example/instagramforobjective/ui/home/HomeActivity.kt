@@ -3,6 +3,7 @@ package com.example.instagramforobjective.ui.home
 import android.util.Log
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
+import androidx.viewpager2.widget.ViewPager2
 import com.example.instagramforobjective.base.BaseActivity
 import com.example.instagramforobjective.ui.post.bottomSheets.AddPostBottomSheetFragment
 import com.example.instagramforobjective.ui.profile.fragment.ProfileFragment
@@ -10,7 +11,9 @@ import com.example.instagramforobjective.ui.reel.reelPreview.ReelFragment
 import com.example.instagramforobjective.ui.search.SearchFragment
 import com.example.instagramforobjective.R
 import com.example.instagramforobjective.databinding.ActivityMainBinding
+import com.example.instagramforobjective.ui.home.adapters.ViewPagerAdapter
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.navigation.NavigationView
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -18,19 +21,27 @@ class HomeActivity : BaseActivity() {
 
     lateinit var binding: ActivityMainBinding
     private lateinit var bottomNav: BottomNavigationView
+    private lateinit var viewPager: ViewPager2
 
     private lateinit var bottomSheetFragment: AddPostBottomSheetFragment
 
     override fun initComponents() {
         Log.d(javaClass.simpleName, "initComponents: MainActivity ")
         bottomNav = binding.bottomNavigationView
+        viewPager = binding.viewPager
         setCurrentFragment(HomeFragment())
 
-
-        bottomNav.setOnItemSelectedListener {
-            when (it.itemId) {
+        viewPager.adapter = ViewPagerAdapter(this)
+        viewPager.setCurrentItem(1, false)
+        bottomNav.setOnClickListener {
+            when (it.id) {
+               /* R.id.camera->{
+                    setCurrentFragment(CameraViewFragment())
+                    true
+                }*/
                 R.id.home -> {
-                    setCurrentFragment(HomeFragment())
+                    viewPager.setCurrentItem(1, true)
+                    //setCurrentFragment(HomeFragment())
                     true
                 }
 
@@ -59,6 +70,15 @@ class HomeActivity : BaseActivity() {
                 }
             }
         }
+
+        viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+            override fun onPageSelected(position: Int) {
+                when (position) {
+                    1 -> bottomNav.menu.findItem(R.id.home).isChecked = true
+                    0 -> bottomNav.menu.findItem(R.id.search).isChecked = true
+                }
+            }
+        })
     }
 
     override fun defineLayout(): Int {
@@ -70,12 +90,13 @@ class HomeActivity : BaseActivity() {
     }
 
     private fun setCurrentFragment(fragment: Fragment) {
-
         supportFragmentManager.beginTransaction().apply {
             replace(R.id.container, fragment)
             commit()
         }
     }
+
+
 
     private fun loadDialogFragment() {
         bottomSheetFragment = AddPostBottomSheetFragment()

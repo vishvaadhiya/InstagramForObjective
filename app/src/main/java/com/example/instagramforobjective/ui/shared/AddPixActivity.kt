@@ -56,10 +56,6 @@ class AddPixActivity : AppCompatActivity() {
             showCameraFragment()
         }
 
-        options.isFrontFacing = true
-/*        options.isFrontFacing = true
-        showCameraFragment()*/
-
     }
 
 
@@ -81,6 +77,7 @@ class AddPixActivity : AppCompatActivity() {
 
     private fun showCameraFragment() {
         val source = intent.getStringExtra(Constants.SOURCE)
+        options.isFrontFacing = true
         if (source == Constants.VIDEO){
             options.mode = Mode.Video
         }else{
